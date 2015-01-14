@@ -1,2 +1,1 @@
-# blackpearl
-A Python-Oriented ServiceFramework
+A Cool Python-oriented Service-Framework

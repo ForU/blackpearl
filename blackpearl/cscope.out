@@ -1,0 +1,2850 @@
+cscope 15 $HOME/work/COOL/blackpearl/blackpearl               0000012780
+	@__init__.py
+
+1 #! /
+u¤
+/
+bš
+/
+’v
+ 
+pythÚ
+
+
+2 #-*- 
+codšg
+: 
+utf
+-8 -*-
+
+	@black_pearl_concurrency.py
+
+1 #! /
+u¤
+/
+bš
+/
+’v
+ 
+pythÚ
+
+
+2 #-*- 
+codšg
+: 
+utf
+-8 -*-
+
+3 #MÚ 
+May
+ 4 13:43:58 2015
+
+4 #hˆ<515563130@
+qq
+.
+com
+, 
+weixš
+:
+jacoŞ“
+>
+
+	@black_pearl_configure_manager.py
+
+1 #! /
+u¤
+/
+bš
+/
+’v
+ 
+pythÚ
+
+
+2 #-*- 
+codšg
+: 
+utf
+-8 -*-
+
+3 #MÚ 
+May
+ 4 13:46:55 2015
+
+4 #hˆ<515563130@
+qq
+.
+com
+, 
+weixš
+:
+jacoŞ“
+>
+
+	@black_pearl_constants.py
+
+1 #! /
+u¤
+/
+bš
+/
+’v
+ 
+pythÚ
+
+
+2 #-*- 
+codšg
+: 
+utf
+-8 -*-
+
+3 #MÚ 
+May
+ 4 13:43:41 2015
+
+4 #hˆ<515563130@
+qq
+.
+com
+, 
+weixš
+:
+jacoŞ“
+>
+
+7 
+şass
+ 
+	$Re¥Ú£Code
+(
+objeù
+):
+
+8 
+def
+ 
+	$__š™__
+(
+£lf
+, 
+£rŸl
+, 
+šfo
+=
+NÚe
+, *
+¬gs
+, **
+kw¬gs
+):
+
+10 
+šfo
+ 
+ÿn
+ 
+be
+ 
+ªythšg
+ 
+u£d
+ 
+desüibe
+ 
+cu¼’t
+ 
+»¥Ú£
+ 
+id
+.
+
+12 
+£lf
+.
+£rŸl
+ = serial
+
+13 
+£lf
+.
+šfo
+ = info
+
+15 
+şass
+ 
+	$CÚ¡ªts
+(
+objeù
+):
+
+16 
+RC_JSON_DUMPS_FAILED
+ = 
+	`Re¥Ú£Code
+(-5, 'ç”Ÿæˆjsonå¤±è´¥')
+
+17 
+RC_IFACE_INVALID_PARAMETER
+ = 
+	`Re¥Ú£Code
+(-4, 'å‚æ•°é”™è¯¯')
+
+18 
+RC_NEVER_HAPPEN
+ = 
+	`Re¥Ú£Code
+(-3, 'åº”è¯¥ä¸ä¼šå‘ç”Ÿ')
+
+19 
+RC_IFACE_UNPROPERLY_DEFINED
+ = 
+	`Re¥Ú£Code
+(-2, 'æ¥å£å®šä¹‰æ ¼å¼éæ³•')
+
+20 
+RC_UNKNOWN
+ = 
+	`Re¥Ú£Code
+(-1, 'æœªçŸ¥é”™è¯¯')
+
+21 
+RC_SUCCESS
+ = 
+	`Re¥Ú£Code
+(0, 'OK')
+
+	@black_pearl_docs.py
+
+1 #! /
+u¤
+/
+bš
+/
+’v
+ 
+pythÚ
+
+
+2 #-*- 
+codšg
+: 
+utf
+-8 -*-
+
+5 
+­i
+ 
+docum’tiÚ
+ 
+‹m¶©e
+ 
+·r£r
+ 
+ªd
+ docum’tiÚ 
+	gg’”©Ü
+
+
+	@black_pearl_error.py
+
+1 #! /
+u¤
+/
+bš
+/
+’v
+ 
+pythÚ
+
+
+2 #-*- 
+codšg
+: 
+utf
+-8 -*-
+
+3 #MÚ 
+May
+ 4 13:44:29 2015
+
+4 #hˆ<515563130@
+qq
+.
+com
+, 
+weixš
+:
+jacoŞ“
+>
+
+7 
+bÏck
+ 
+³¬l
+ 
+	g”rÜ
+-
+»Ï‹d
+ 
+	g¡uff
+
+
+10 
+şass
+ 
+	$Re¥Ú£Exû±iÚ
+(
+Exû±iÚ
+):
+
+11 
+def
+ 
+	$__š™__
+(
+£lf
+, 
+»¥Ú£_code
+, 
+why
+=
+NÚe
+, *
+¬gs
+, **
+kw¬gs
+):
+
+12 
+£lf
+.
+»¥Ú£_code
+ =„esponse_code
+
+13 
+£lf
+.
+why
+ = why
+
+14 
+	`su³r
+(
+Re¥Ú£Exû±iÚ
+, 
+£lf
+).
+	`__š™__
+(*
+¬gs
+, **
+kw¬gs
+)
+
+	@black_pearl_exception.py
+
+1 #! /
+u¤
+/
+bš
+/
+’v
+ 
+pythÚ
+
+
+2 #-*- 
+codšg
+: 
+utf
+-8 -*-
+
+5 
+bÏck
+ 
+³¬l
+ 
+	gexû±iÚs
+
+
+8 
+şass
+ 
+	$BÏckP—¾Exû±iÚ
+(
+Exû±iÚ
+):
+
+9 
+def
+ 
+	$__š™__
+(
+£lf
+, ):
+
+10 
+£lf
+.
+wh©
+ = s–f.
+mes§ge
+
+
+12 @
+´İ”ty
+
+
+13 
+def
+ 
+	$wh©
+(
+£lf
+):
+
+14  
+£lf
+.
+mes§ge
+
+
+17 
+şass
+ 
+	$NÙIm¶em’‹dIÁ”çû
+(
+BÏckP—¾Exû±iÚ
+):
+
+18 
+·ss
+
+
+	@black_pearl_request.py
+
+1 #! /
+u¤
+/
+bš
+/
+’v
+ 
+pythÚ
+
+
+2 #-*- 
+codšg
+: 
+utf
+-8 -*-
+
+5 
+A
+ 
+mÜe
+ 
+ã©u»s
+ 
+added
+ 
+»que¡
+ 
+	gw¿µ”
+
+
+8 
+impÜt
+ 
+tÜÇdo
+
+
+9 
+impÜt
+ 
+time
+
+
+10 
+impÜt
+ 
+funùoŞs
+
+
+11 
+impÜt
+ 
+jsÚ
+
+
+13 
+äom
+ 
+bÏck_³¬l_uom
+ 
+impÜt
+ 
+BÏckP—¾UOM
+
+
+14 
+äom
+ 
+bÏck_³¬l_cÚ¡ªts
+ 
+impÜt
+ 
+CÚ¡ªts
+
+
+15 
+äom
+ 
+bÏck_³¬l_”rÜ
+ 
+impÜt
+ 
+Re¥Ú£Exû±iÚ
+
+
+16 
+äom
+ 
+bÏck_³¬l_uts
+ 
+impÜt
+ 
+Magic
+
+
+19 
+def
+ 
+	$dŸ
+(
+’abË
+=
+True
+):
+
+20 
+def
+ 
+	$dec
+(
+f
+):
+
+21 @
+funùoŞs
+.
+	$w¿ps
+(
+f
+)
+
+22 
+def
+ 
+	$_f_w¿µ”
+(*
+¬gs
+, **
+kw¬gs
+):
+
+23 
+’abË
+:
+
+25 
+s
+ = 
+time
+.
+	$time
+()
+
+26 
+f_»t_v®
+ = 
+	$f
+(*
+¬gs
+, **
+kw¬gs
+)
+
+27 
+e
+ = 
+time
+.
+	$time
+()
+
+29 #g‘ 
+uri
+ 
+by
+ 
+£lf
+.
+xxx
+
+
+30 
+»q_hªdËr
+ = 
+¬gs
+[0]
+
+31 #TODO 
+Fri
+ 
+A´
+ 3 02:48:39 2015
+
+33 
+´št
+ "- [%s]imeco¡:%6fms,„emÙe_:'%s',‡pi:'%s' -" % (
+time
+.
+	`asùime
+(), (
+e
+-
+s
+)*1000, 
+»q_hªdËr
+.
+»que¡
+.
+»mÙe_
+,„eq_hªdËr.»que¡.
+uri
+)
+
+35  
+f_»t_v®
+
+
+36  
+	$f
+(*
+¬gs
+, **
+kw¬gs
+)
+
+37  
+_f_w¿µ”
+
+
+38  
+dec
+
+
+41 
+şass
+ 
+	$BÏckP—¾Reque¡HªdËr
+(
+tÜÇdo
+.
+web
+.
+Reque¡HªdËr
+):
+
+43 
+def
+ 
+	$_g‘_š‹rçû
+(
+£lf
+):
+
+44 #CRITICAL: 
+sim¶e
+
+
+45 '?' 
+š
+ 
+£lf
+.
+»que¡
+.
+uri
+:
+
+46 
+u¾_·‰”n
+ = 
+£lf
+.
+»que¡
+.
+uri
+.
+	`¥l™
+('?')[0].
+	$¡r
+()
+
+48 
+u¾_·‰”n
+ = 
+£lf
+.
+»que¡
+.
+uri
+
+
+49  ( 
+u¾_·‰”n
+, u¾_·‰”n.
+	`¥l™
+('/')[-1].
+	$¡r
+() )
+
+51 
+def
+ 
+	$_g‘_içû_·¿ms
+(
+£lf
+, 
+içû_com¶‘e
+):
+
+52 
+içû_¬gs
+ = 
+BÏckP—¾UOM
+.
+	$g‘Args
+(
+içû_com¶‘e
+)
+
+53 
+nÙ
+ 
+içû_¬gs
+:
+
+54 
+¿i£
+ 
+	`Re¥Ú£Exû±iÚ
+(
+CÚ¡ªts
+.
+RC_NEVER_HAPPEN
+, 
+why
+="uÄegi¡”ed '%s'" % 
+içû_com¶‘e
+)
+
+55 
+içû_·¿ms
+, 
+içû_»¡riùiÚ
+ = 
+içû_¬gs
+[0], iface_args[1]
+
+57 #CRITICAL: 
+has
+ 
+·¿m‘”
+ 
+but
+ 
+no
+ 
+»¡riùiÚ
+
+
+58 
+içû_·¿ms
+ 
+ªd
+ 
+nÙ
+ 
+içû_»¡riùiÚ
+:
+
+59 
+¿i£
+ 
+	`Re¥Ú£Exû±iÚ
+Ğ
+CÚ¡ªts
+.
+RC_IFACE_UNPROPERLY_DEFINED
+,
+
+60 
+why
+='refero iface definition guide…lz~' )
+
+62 
+·¿m‘”s
+ , 
+»q_¬gs
+ = {
+	}
+}, 
+	g£lf
+.
+	g»que¡
+.
+¬gum’ts
+
+
+63 
+	gk
+,
+v
+ 
+š
+ 
+	giçû_»¡riùiÚ
+.
+	$™ems
+():
+
+64 
+nÙ
+ 
+	$isš¡ªû
+(
+v
+, 
+Magic
+):
+
+65 
+¿i£
+ 
+	`Re¥Ú£Exû±iÚ
+Ğ
+CÚ¡ªts
+.
+RC_IFACE_UNPROPERLY_DEFINED
+,
+
+66 
+why
+='refero iface definition guide…lz~' )
+
+67 
+v
+.
+»quœed
+:
+
+68 
+k
+ 
+nÙ
+ 
+š
+ 
+»q_¬gs
+:
+
+69 
+why
+ = "[FATAL] '%s' i »quœed oàiçû:'%s'" % (
+k
+, 
+içû_com¶‘e
+)
+
+70 
+¿i£
+ 
+	$Re¥Ú£Exû±iÚ
+(
+CÚ¡ªts
+.
+RC_IFACE_INVALID_PARAMETER
+, 
+why
+=why)
+
+72 
+·¿m_v
+ = 
+»q_¬gs
+.
+	`g‘
+(
+k
+,[
+NÚe
+])[0]
+
+74 
+·¿m_v
+ = 
+v
+.
+
+75 
+Œy
+:
+
+76 
+·¿m_v
+ = 
+v
+.
+	$ty³
+(
+·¿m_v
+)
+
+77 
+exû±
+ 
+Exû±iÚ
+ 
+as
+ 
+e
+:
+
+78 
+why
+ = "[FATAL] '%s' oà'%s'‚“dØb'%s' com·tibË, '%s'" % (
+v
+,
+k
+,v.
+ty³
+,
+e
+)
+
+79 
+¿i£
+ 
+	$Re¥Ú£Exû±iÚ
+(
+CÚ¡ªts
+.
+RC_IFACE_INVALID_PARAMETER
+, 
+why
+=why)
+
+81 #check 
+·¿m_v
+ 
+no
+ 
+m©‹r
+ 
+wh”e
+ dØ
+we
+ 
+g‘
+ 
+™
+!
+
+82 
+v
+.
+v®ue_’um
+ 
+ªd
+ 
+·¿m_v
+ 
+nÙ
+ 
+š
+ v.value_enum:
+
+83 
+why
+ = "[FATAL] '%s' oàkey:'%s'‚Ù iÀ’um:'%s'" % (
+·¿m_v
+, 
+k
+, 
+v
+.
+v®ue_’um
+)
+
+84 
+¿i£
+ 
+	$Re¥Ú£Exû±iÚ
+(
+CÚ¡ªts
+.
+RC_IFACE_INVALID_PARAMETER
+, 
+why
+=why)
+
+85 
+–if
+ 
+v
+.
+v®ue_¿nge
+ 
+ªd
+ 
+	`nÙ
+ (v.v®ue_¿nge[0] <ğ
+·¿m_v
+ <= v.value_range[1]):
+
+86 
+why
+ = "[FATAL] '%s' oàkey:'%s'‚Ù iÀ¿nge:'%s'" % (
+·¿m_v
+, 
+k
+, 
+v
+.
+v®ue_’um
+)
+
+87 
+¿i£
+ 
+	$Re¥Ú£Exû±iÚ
+(
+CÚ¡ªts
+.
+RC_IFACE_INVALID_PARAMETER
+, 
+why
+=why)
+
+89 
+·¿m‘”s
+[
+k
+] = 
+·¿m_v
+
+
+90  
+·¿m‘”s
+
+
+92 @
+	$dŸ
+(
+’abË
+=
+True
+)
+
+93 
+def
+ 
+	$g‘
+(
+£lf
+, *
+¬gs
+, **
+kw¬gs
+):
+
+95 
+´št
+ '£ssiÚ_id:', 
+£lf
+.
+	`g‘_cook›
+('session_id')
+
+96 
+Œy
+:
+
+97 
+içû_com¶‘e
+, 
+içû
+ = 
+£lf
+.
+	$_g‘_š‹rçû
+()
+
+98 
+·¿m‘”s
+ = 
+£lf
+.
+	$_g‘_içû_·¿ms
+(
+içû_com¶‘e
+)
+
+99 
+»suÉ
+ = 
+	`g‘©Œ
+(
+£lf
+, 
+içû
+)(**
+·¿m‘”s
+)
+
+100 
+why
+ = 
+NÚe
+
+
+101 
+rc
+ = 
+CÚ¡ªts
+.
+RC_SUCCESS
+
+
+102 
+exû±
+ 
+Re¥Ú£Exû±iÚ
+ 
+as
+ 
+e
+:
+
+103 
+»suÉ
+ = 
+NÚe
+
+
+104 
+why
+ = 
+e
+.why
+
+105 
+rc
+ = 
+e
+.
+»¥Ú£_code
+
+
+106 
+exû±
+ 
+Exû±iÚ
+ 
+as
+ 
+e
+:
+
+107 
+»suÉ
+ = 
+NÚe
+
+
+108 
+why
+ = 
+e
+
+
+109 
+rc
+ = 
+CÚ¡ªts
+.
+RC_UNKNOWN
+
+
+110 #wr™
+d©a
+ 
+to
+ 
+»que¡”
+
+
+111 
+d©a
+ = { 'code':
+rc
+.
+£rŸl
+,
+
+112 'šfo':
+rc
+.
+šfo
+,
+
+113 'why': 
+why
+,
+
+114 '»suÉ':
+»suÉ
+
+
+115 
+	}
+}
+
+116 
+Œy
+:
+
+117 
+£lf
+.
+wr™e
+Ğ
+jsÚ
+.
+	$dumps
+(
+d©a
+) )
+
+119 
+exû±
+ 
+Exû±iÚ
+ 
+as
+ 
+e
+:
+
+120 #ià
+wr™e
+ 
+çs
+, 
+the
+ 
+»que¡”
+ 
+Ãv”
+ 
+g‘
+ 
+d©a
+, 
+so
+
+
+121 #Úly 
+v®uabË
+ 
+»asÚ
+ 
+is
+ 
+th©
+ 
+the
+ 
+jsÚ
+.
+dumps
+ 
+çs
+.
+
+122 
+d©a
+ = { 'code':
+CÚ¡ªts
+.
+RC_JSON_DUMPS_FAILED
+.
+£rŸl
+,
+
+123 'šfo':
+CÚ¡ªts
+.
+RC_JSON_DUMPS_FAILED
+.
+šfo
+,
+
+124 'why': 
+NÚe
+,
+
+125 '»suÉ':
+NÚe
+
+
+126 
+	}
+}
+
+127 
+£lf
+.
+wr™e
+Ğ
+jsÚ
+.
+	$dumps
+(
+d©a
+) )
+
+129 
+def
+ 
+	$po¡
+(
+£lf
+):
+
+130 #TODO 
+Fri
+ 
+A´
+ 3 00:29:40 2015
+
+131 
+·ss
+
+
+	@black_pearl_server.py
+
+1 #! /
+u¤
+/
+bš
+/
+’v
+ 
+pythÚ
+
+
+2 #-*- 
+codšg
+: 
+utf
+-8 -*-
+
+3 #MÚ 
+May
+ 4 16:59:45 2015
+
+4 #hˆ<515563130@
+qq
+.
+com
+, 
+weixš
+:
+jacoŞ“
+>
+
+6 
+impÜt
+ 
+	gtÜÇdo
+.
+iŞoİ
+
+
+7 
+impÜt
+ 
+	gtÜÇdo
+.
+web
+
+
+9 
+äom
+ 
+bÏck_³¬l_uom
+ 
+impÜt
+ 
+BÏckP—¾UOM
+
+
+10 
+äom
+ 
+bÏck_³¬l_»que¡
+ 
+impÜt
+ 
+BÏckP—¾Reque¡HªdËr
+
+
+12 
+şass
+ 
+	$BÏckP—¾S”v”
+(
+objeù
+):
+
+13 
+def
+ 
+	$__š™__
+(
+£lf
+, 
+cÚfigu»_mªag”
+=
+NÚe
+):
+
+14 
+£lf
+.
+cm
+ = 
+cÚfigu»_mªag”
+
+
+15 
+£lf
+.
+hªdËrs
+ = 
+NÚe
+
+
+17 
+def
+ 
+	$š™
+(
+£lf
+):
+
+18 
+´št
+ "initializing server ..."
+
+19 
+BÏckP—¾UOM
+.
+	`impÜtModuË
+('api')
+
+21 
+£lf
+.
+hªdËrs
+ = 
+BÏckP—¾UOM
+.
+	`lßd
+((
+BÏckP—¾Reque¡HªdËr
+,))
+
+22 
+´št
+ 
+BÏckP—¾UOM
+.
+	$šfo
+()
+
+23 
+h
+ 
+š
+ 
+£lf
+.
+hªdËrs
+:
+
+24 
+´št
+ 'hªdËr', 
+h
+
+
+26 
+def
+ 
+	$run
+(
+£lf
+):
+
+27 
+´št
+ "running server @localhost:8888 ..."
+
+28 #TODO 
+MÚ
+ 
+May
+ 4 17:00:35 2015 [
+lßd
+ 
+äom
+ 
+cÚfigu»
+ 
+fe
+]
+
+29 
+­¶iÿtiÚ
+ = 
+tÜÇdo
+.
+web
+.
+	$AµliÿtiÚ
+Ğ
+£lf
+.
+hªdËrs
+ )
+
+30 
+­¶iÿtiÚ
+.
+	$li¡’
+(8888)
+
+31 
+tÜÇdo
+.
+iŞoİ
+.
+IOLoİ
+.
+	`š¡ªû
+().
+	$¡¬t
+()
+
+33 
+__Çme__
+ == "__main__":
+
+34 
+svr
+ = 
+	$BÏckP—¾S”v”
+()
+
+35 
+svr
+.
+	$š™
+()
+
+36 
+svr
+.
+	`run
+()
+
+	@black_pearl_uom.py
+
+1 #! /
+u¤
+/
+bš
+/
+’v
+ 
+pythÚ
+
+
+2 #-*- 
+codšg
+: 
+utf
+-8 -*-
+
+4 
+impÜt
+ 
+š¥eù
+
+
+5 
+impÜt
+ 
+ty³s
+
+
+7 
+äom
+ 
+bÏck_³¬l_uts
+ 
+impÜt
+ 
+Magic
+
+
+10 
+şass
+ 
+	$BÏckP—¾UOM
+(
+objeù
+):
+
+11 
+moduË_objs
+ = []
+
+12 #key: 
+u¾_·‰”n
+
+
+13 #v®ue: (
+·¿m‘”_Çmes
+=[...], 
+deçuÉs
+={...
+	}
+})
+
+14 
+	gš‹rçû_šfos
+ = {}
+
+16 @
+şassm‘hod
+
+
+17 
+def
+ 
+	$impÜtModuË
+(
+şs
+, 
+moduË
+):
+
+18 
+	$isš¡ªû
+(
+moduË
+, 
+¡r
+):
+
+19 
+Œy
+:
+
+20 
+moduË
+ = 
+	$__impÜt__
+(
+moduË
+)
+
+21 
+exû±
+ 
+Exû±iÚ
+ 
+as
+ 
+e
+:
+
+22 
+´št
+ "[ERROR] faedØimpÜˆ'%s', caz:'%s'" % (
+moduË
+, 
+e
+)
+
+24 
+şs
+.
+moduË_objs
+.
+	`­³nd
+(
+moduË
+)
+
+26 @
+şassm‘hod
+
+
+27 
+def
+ 
+	$šfo
+(
+şs
+):
+
+28  
+	`¡r
+(
+şs
+.
+moduË_objs
+è+ sŒ(şs.
+š‹rçû_šfos
+)
+
+30 @
+şassm‘hod
+
+
+31 
+def
+ 
+	`_g‘_şas£s_äom_moduË
+(
+şs
+, 
+moduË_obj
+, 
+Ba£CÏssTy³s
+=(
+objeù
+,)):
+
+33 
+sub
+-
+şass
+ 
+of
+ 
+¥ecif›d
+ 
+ba£
+ cÏs 
+ty³s
+.
+
+35  [
+v
+ 
+_
+,v 
+š
+ 
+moduË_obj
+.
+__diù__
+.
+	$™ems
+(è
+š¥eù
+.
+	$isşass
+(
+v
+è
+ªd
+ 
+	$issubşass
+(
+v
+, 
+Ba£CÏssTy³s
+è
+ªd
+ v 
+nÙ
+ 
+š
+ BaseClassTypes]
+
+37 @
+şassm‘hod
+
+
+38 
+def
+ 
+	$_g‘_funùiÚs_äom_şass
+(
+şs
+, 
+şass_obj
+, 
+Úly_public
+=
+True
+):
+
+39  [
+v
+ 
+_
+,v 
+š
+ 
+şass_obj
+.
+__diù__
+.
+	$™ems
+(è
+	`ty³
+(
+v
+è=ğ
+ty³s
+.
+FunùiÚTy³
+ 
+	`ªd
+ (
+nÙ
+ v.
+__Çme__
+.
+	`¡¬tsw™h
+('_'è
+Úly_public
+ 
+True
+)]
+
+41 @
+şassm‘hod
+
+
+42 
+def
+ 
+	$_g‘_¬gs_äom_funùiÚ
+(
+şs
+, 
+funùiÚ_obj
+):
+
+46 
+çrg¥ec
+ = 
+š¥eù
+.
+	$g‘¬g¥ec
+(
+funùiÚ_obj
+)
+
+47 
+f_¬gs
+, 
+f_deçuÉs
+ = 
+çrg¥ec
+.
+¬gs
+, f¬g¥ec.
+deçuÉs
+
+
+48 
+deçuÉ_¬gs
+ = {
+	}
+}
+
+49 
+f_deçuÉs
+:
+
+50 
+deçuÉ_¬gs
+ = { 
+i
+[0]:i[1] ˜
+š
+ 
+z
+(
+f_¬gs
+[::-1], 
+f_deçuÉs
+[::-1]) }
+
+51 
+deçuÉ_¬gs
+ = { 
+p
+: #value
+
+52 
+Magic
+Ğ
+»quœed
+ = 
+v
+.
+g‘
+('required'),
+
+53 
+ty³
+ = 
+v
+.
+g‘
+('type'),
+
+54  = 
+v
+.
+g‘
+('default'),
+
+55 
+v®ue_’um
+ = 
+v
+.
+g‘
+('value_enum'),
+
+56 
+v®ue_¿nge
+ = 
+v
+.
+g‘
+('value_enum')
+
+58 
+p
+,
+v
+ 
+š
+ 
+	gdeçuÉ_¬gs
+.
+™ems
+() }
+
+59 #»mov'şs'/'£lf' 
+exi¡s
+
+
+60 
+f_¬gs
+ 
+ªd
+ 
+	gf_¬gs
+[0] 
+š
+ ('cls', 'self'):
+
+61 
+f_¬gs
+ = f_args[1:]
+
+62  (
+f_¬gs
+, 
+	gdeçuÉ_¬gs
+)
+
+64 @
+şassm‘hod
+
+
+65 
+def
+ 
+	$_g’_u¾_·‰”n
+(
+şs
+, 
+moduË_Çme
+, 
+şass_Çme
+, 
+içû_Çme
+):
+
+66  "/%s/%s/%s" % (
+moduË_Çme
+, 
+şass_Çme
+, 
+içû_Çme
+)
+
+68 @
+şassm‘hod
+
+
+69 
+def
+ 
+	`lßd
+(
+şs
+, 
+Ba£CÏssTy³s
+=(
+objeù
+,)):
+
+70 
+hªdËrs
+ = []
+
+71 
+mod
+ 
+š
+ 
+şs
+.
+moduË_objs
+:
+
+72 
+c
+ 
+š
+ 
+şs
+.
+	$_g‘_şas£s_äom_moduË
+(
+mod
+, 
+Ba£CÏssTy³s
+):
+
+73 
+f
+ 
+š
+ 
+şs
+.
+	$_g‘_funùiÚs_äom_şass
+(
+c
+):
+
+74 
+u¾_·‰”n
+ = 
+şs
+.
+	$_g’_u¾_·‰”n
+(
+mod
+.
+__Çme__
+, 
+c
+.__Çme__, 
+f
+.__name__)
+
+75 
+şs
+.
+š‹rçû_šfos
+[
+u¾_·‰”n
+] = cls.
+	$_g‘_¬gs_äom_funùiÚ
+(
+f
+)
+
+76 
+hªdËrs
+.
+	`­³nd
+Ğ(
+u¾_·‰”n
+, 
+c
+) )
+
+77  
+hªdËrs
+
+
+79 @
+şassm‘hod
+
+
+80 
+def
+ 
+	$g‘Args
+(
+şs
+, 
+u¾_·‰”n
+):
+
+81  
+şs
+.
+š‹rçû_šfos
+.
+	`g‘
+(
+u¾_·‰”n
+)
+
+	@black_pearl_url.py
+
+1 #! /
+u¤
+/
+bš
+/
+’v
+ 
+pythÚ
+
+
+2 #-*- 
+codšg
+: 
+utf
+-8 -*-
+
+5 
+h‰p
+ 
+	guri
+:
+rfc3986
+ 
+·r£r
+
+
+7 
+wiki
+: 
+h‰p
+:
+
+10 
+äom
+ 
+bÏck_³¬l_exû±iÚ
+ 
+impÜt
+ 
+NÙIm¶em’‹dIÁ”çû
+
+
+13 
+PARAMS_SEPARATOR_AMPERSAND
+ = '&'
+
+14 
+PARAMS_SEPARATOR_SEMICOLON
+ = ';'
+
+17 
+şass
+ 
+	$BÏckP—¾Ba£U¾
+(
+objeù
+):
+
+18 
+def
+ 
+	$__š™__
+(
+£lf
+, 
+¿w_u¾
+):
+
+19 
+£lf
+.
+_¿w_u¾
+ = 
+¿w_u¾
+
+
+20 
+£lf
+.
+_u¾
+ = 
+¿w_u¾
+
+
+21 
+£lf
+.
+_v®id
+ = 
+F®£
+
+
+23 
+def
+ 
+	$»fše
+(
+£lf
+):
+
+24 
+£lf
+.
+	$_·r£
+(
+£lf
+.
+_u¾
+, 
+»fše_u¾
+=
+True
+)
+
+25  
+£lf
+.
+_u¾
+
+
+27 
+def
+ 
+	$_·r£
+(
+£lf
+, *
+k¬gs
+, **
+kw¬gs
+):
+
+28 
+¿i£
+ 
+	$NÙIm¶em’‹dIÁ”çû
+()
+
+30 
+def
+ 
+	$__¡r__
+(
+£lf
+):
+
+31  
+£lf
+.
+	$__»´__
+()
+
+33 
+def
+ 
+	$__»´__
+(
+£lf
+):
+
+34  
+£lf
+.
+_u¾
+
+
+36 
+şass
+ 
+	$BÏckP—¾U¾
+(
+BÏckP—¾Ba£U¾
+):
+
+39 
+def
+ 
+	$__š™__
+(
+£lf
+, 
+¿w_u¾
+):
+
+40 
+	`su³r
+(
+BÏckP—¾U¾
+, 
+£lf
+).
+	$__š™__
+(
+¿w_u¾
+)
+
+41 
+£lf
+.
+_·th
+ = []
+
+42 
+£lf
+.
+_·¿ms
+ = {
+	}
+}
+
+44 
+def
+ 
+	$_·r£
+(
+£lf
+, 
+u¾
+, 
+kv_£·¿tÜ
+=
+PARAMS_SEPARATOR_AMPERSAND
+, 
+»fše_u¾
+=
+F®£
+, ):
+
+47 #IM: 
+bug
+-
+´Ù’tŸl
+ 
+wh’
+ 
+Œ—t
+ '?' 
+as
+ 
+fœ¡
+ 
+¥l™
+ 
+£³¿tÜ
+
+
+48 
+l_qm¬k
+ = 
+u¾
+.
+	`¥l™
+('?', 1)
+
+49 
+·th
+ = 
+l_qm¬k
+[0] 
+Ü
+ 
+NÚe
+
+
+50 
+·¿ms
+ = 
+l_qm¬k
+[1] 2 =ğ
+	$Ën
+(
+l_qm¬k
+è
+NÚe
+
+
+52 
+·th
+:
+
+53 
+£lf
+.
+_v®id
+ = 
+True
+
+
+54 
+·th
+.
+	`¡¬tsw™h
+('/'):
+
+55 
+·th
+ =…ath[1:]
+
+56 
+£lf
+.
+_·th
+ = [
+i
+.
+	$¡r
+(è
+i
+ 
+š
+ 
+·th
+.
+	`¥l™
+('/'èi.
+	`¡r
+()]
+
+58 
+·¿ms
+:
+
+59 
+l_kv_·œs
+ = 
+·¿ms
+.
+	$¥l™
+(
+kv_£·¿tÜ
+)
+
+60 
+kv_·œ
+ 
+š
+ 
+l_kv_·œs
+:
+
+61 
+kv_·œ
+ = kv_·œ.
+	$¡r
+()
+
+62 
+nÙ
+ 
+kv_·œ
+:
+
+64 
+l
+ = 
+kv_·œ
+.
+	`¥l™
+('=', 1)
+
+65 
+k
+ = 
+l
+[0].
+	$¡r
+(è
+Ü
+ 
+NÚe
+
+
+66 
+nÙ
+ 
+k
+:
+
+68 
+v
+ = 
+l
+[1].
+	$¡r
+(è
+k
+ 
+ªd
+ 2 =ğ
+	$Ën
+(
+l
+è
+NÚe
+
+
+69 
+£lf
+.
+_·¿ms
+[
+k
+] = 
+v
+ 
+Ü
+ 
+NÚe
+
+
+71 
+»fše_u¾
+:
+
+72 
+£lf
+.
+_u¾
+ = '/'
+
+73 
+£lf
+.
+_u¾
+ +ğ'/'.
+	$još
+(
+£lf
+.
+_·th
+)
+
+74 
+£lf
+.
+_u¾
+ += '?'
+
+75 
+£lf
+.
+_u¾
+ +ğ'&'.
+	`još
+(['%s=%s'%(
+k
+,
+v
+ 
+Ü
+ ''èk,v 
+š
+ s–f.
+_·¿ms
+.
+	`™ems
+()])
+
+	@black_pearl_utils.py
+
+1 #! /
+u¤
+/
+bš
+/
+’v
+ 
+pythÚ
+
+
+2 #-*- 
+codšg
+: 
+utf
+-8 -*-
+
+3 #hˆ<515563130@
+qq
+.
+com
+, 
+weixš
+:
+jacoŞ“
+>
+
+5 
+şass
+ 
+	$B¬eBÚe
+(
+objeù
+):
+
+6 
+def
+ 
+	$__š™__
+(
+£lf
+, *
+¬gs
+, **
+kw¬gs
+):
+
+7 
+·ss
+
+
+10 
+şass
+ 
+	$Magic
+(
+objeù
+):
+
+11 
+def
+ 
+	$__š™__
+(
+£lf
+, *
+¬gs
+, **
+kw¬gs
+):
+
+12 
+£lf
+.
+__¿w__
+ = 
+kw¬gs
+
+
+13 
+	`£‰r
+(
+£lf
+, '¬gs', 
+¬gs
+)
+
+14 
+k
+,
+v
+ 
+š
+ 
+kw¬gs
+.
+	$™ems
+():
+
+15 
+	$£‰r
+(
+£lf
+, 
+k
+, 
+v
+)
+
+18 
+şass
+ 
+	$D“pMagic
+(
+objeù
+):
+
+19 
+def
+ 
+	$__š™__
+(
+£lf
+, *
+¬gs
+, **
+kw¬gs
+):
+
+20 
+£lf
+.
+__¿w__
+ = 
+kw¬gs
+
+
+21 
+	`£‰r
+(
+£lf
+, '¬gs', 
+¬gs
+)
+
+22 
+def
+ 
+	$__šÃr_do_magic
+(
+obj
+, 
+d
+):
+
+23 
+k
+,
+v
+ 
+š
+ 
+d
+.
+	$™ems
+():
+
+24 
+nÙ
+ 
+	$isš¡ªû
+(
+v
+, 
+diù
+):
+
+25 
+	$£‰r
+(
+obj
+, 
+k
+, 
+v
+)
+
+28 
+	`£‰r
+(
+obj
+, 
+k
+, 
+	$B¬eBÚe
+())
+
+29 
+bbÚe
+ = 
+	$g‘©Œ
+(
+obj
+, 
+k
+)
+
+30 
+	$__šÃr_do_magic
+Ğ
+bbÚe
+, 
+v
+ )
+
+32 
+	`__šÃr_do_magic
+(
+£lf
+, 
+kw¬gs
+)
+
+	@
+1
+.
+1
+/usr/include
+12
+267
+__init__.py
+black_pearl_concurrency.py
+black_pearl_configure_manager.py
+black_pearl_constants.py
+black_pearl_docs.py
+black_pearl_error.py
+black_pearl_exception.py
+black_pearl_request.py
+black_pearl_server.py
+black_pearl_uom.py
+black_pearl_url.py
+black_pearl_utils.py

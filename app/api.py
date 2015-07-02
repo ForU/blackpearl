@@ -51,6 +51,8 @@ class test(BlackPearlRequestHandler):
             piece = c_pl.getPiece(piece_id)
             result['targets'] = [ {'url':i.url, 'motion':i.motion} for i in piece.targets ]
 
+            # TODO Thu Jul  2 17:42:12 2015 []
+            result['create_time'] = piece.create_time
             # get owner
             try:
                 owner = c_hc.getUser(piece.owner_id)
@@ -59,8 +61,13 @@ class test(BlackPearlRequestHandler):
                 # TODO Thu Jun 25 15:17:59 2015 [fatal error, ResponseCode]
             result['owner'] = { 'avatar':owner.avatar, 'name':owner.nick_name, 'id':owner.id }
 
+            # get comments
+            comments = []
+            result['comments'] = { 'total':200, 'comments': comments }
+
             # get heart-ers
-            result['hearters'] = hearters = []
+            hearters = []
+            result['hearters'] = {'total':100, 'hearters':hearters}
             for i in piece.follower_ids:
                 try:
                     u = c_hc.getUser(i)

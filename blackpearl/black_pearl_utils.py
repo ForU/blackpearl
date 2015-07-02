@@ -14,6 +14,9 @@ class Magic(object):
         for k,v in kwargs.items():
             setattr(self, k, v)
 
+    def __str__(self,):
+        return str(self.__dict__)
+
 
 class DeepMagic(object):
     def __init__(self, *args, **kwargs):

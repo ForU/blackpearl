@@ -12,6 +12,9 @@ class ResponseCode(object):
         self.code = code
         self.info = info
 
+    def __str__(self):
+        return "code:%s, info:%s" % (self.code, self.info)
+
 class Constants(object):
     """
     CRITICAL ERROR CONVENTION:

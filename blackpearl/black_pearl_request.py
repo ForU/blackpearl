@@ -104,7 +104,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
     @dia(enable=True)
     def get(self, *args, **kwargs):
         """ do all magic here"""
-        print 'session_id:', self.get_cookie('session_id')
+        print 'TODO session_id:', self.get_cookie('session_id')
         try:
             iface_complete, iface = self._get_interface()
             parameters = self._get_iface_params(iface_complete) or {}
@@ -130,3 +130,5 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
         import ipdb; ipdb.set_trace()
 
         self.get(*args, **kwargs)
+
+

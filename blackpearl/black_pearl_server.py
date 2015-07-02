@@ -20,8 +20,6 @@ class BlackPearlServer(object):
         # ...
         self.handlers = BlackPearlUOM.load((BlackPearlRequestHandler,))
         print BlackPearlUOM.info()
-        for h in self.handlers:
-            print 'registering handler', h
 
     def run(self):
         print "running server @localhost:8888 ..."

@@ -7,6 +7,12 @@ import types
 from black_pearl_utils import Magic
 
 
+import tornado
+class DocRequestHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        self.write(BlackPearlUOM.info())
+
+
 class BlackPearlUOM(object):
     module_objs = []
     # key: url_pattern
@@ -74,7 +80,10 @@ class BlackPearlUOM(object):
                 for f in cls._get_functions_from_class(c):
                     url_pattern = cls._gen_url_pattern(mod.__name__, c.__name__, f.__name__)
                     cls.interface_infos[url_pattern] = cls._get_args_from_function(f)
+                    print "registering handler:", (url_pattern, c)
                     handlers.append( (url_pattern, c) )
+        # register doc
+        handlers.append(('/docs', DocRequestHandler))
         return handlers
 
     @classmethod

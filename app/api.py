@@ -9,6 +9,8 @@ from blackpearl.black_pearl_response import Response
 from pollens.client import pl_client
 from pollens.client.Pollens.ttypes import *
 from honeycomb.client import hc_client
+from honeycomb.client.Honeycomb.ttypes import *
+from honeycomb.client.common.hc_constants import CommonConstants as HcCommonConstants
 
 from app_error import AppConstants
 
@@ -21,11 +23,6 @@ c_pl.connect('127.0.0.1', 9000)
 
 
 class test(BlackPearlRequestHandler):
-    def echo(self, message={'type':str, 'required':True}):
-        return Response(result={'hey':"%s" % message})
-
-    def age(self, age={'type':int, 'required':True}):
-        return Response(result={'age':age})
 
     def getPiecesList(self):
         user = c_hc.getUser(user_id=1)
@@ -87,19 +84,43 @@ class test(BlackPearlRequestHandler):
             print 'TApiError', e
             return Response(AppConstants.RC_FAILED_GET_PIECE, why=e._message)
 
-        def follow(self, session_id={'type':(int,long), 'required':True},
-                   follow_infos={'type':str, 'required':True} ):
-            """follow_infos format:
-            item = 'target_type:target_id'
-            follow_infos = item[$item...]
+    def follow(self,
+               session_id={'type':long, 'required':True},
+               desc={'type':str, 'required':True} ):
 
-            eg:
+        """follow_infos format:
+        item = 'target_type:target_id'
+        follow_infos = item[$item...]
 
-            'piece:1$piece:2$album:2$user:20'
-            """
-            # TODO Thu Jun 25 22:15:55 2015 []
-            # get follower_id by session_id from session
-            # CALL FOLLOW METHOD.
-            pass
+        eg:
 
-        
+        'p:1:1$p:2:1$a:2$u:20'
+        """
+        # TODO Thu Jul  2 16:18:42 2015 [get follower_id from session by @session_id]
+        follower_id = int(session_id)
+        items = desc.split('$')
+        hc_follows = []
+        for item in items:
+            item = item.split(':')
+            print item
+            item_type = item[0]
+            if item_type == 'p':
+                if len(item) < 3:
+                    print "ERROR: invalid item:%s" % item
+                    continue
+                c_pl.followPiece(follower_id=follower_id, piece_id=int(item[1]), album_id=int(item[2]))
+            elif item_type == 'a':
+                if len(item) < 2:
+                    print "ERROR: invalid item:%s" % item
+                    continue
+                c_pl.followAlbum(follower_id=follower_id, album_id=int(item[1]))
+
+            elif item_type == 'u':
+                if len(item) < 2:
+                    print "ERROR: invalid item:%s" % item
+                    continue
+                fi = FollowInfo(target_type=HcCommonConstants.FOLLOW_TARGET_TYPE_USER, target_id=int(item[1]))
+                hc_follows.append(fi)
+        if hc_follows:
+            c_hc.follow(follower_id, hc_follows)
+        return Response(AppConstants.RC_SUCCESS)

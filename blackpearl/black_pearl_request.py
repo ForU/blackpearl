@@ -99,7 +99,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
                 raise ResponseException(Constants.RC_IFACE_INVALID_PARAMETER, why=why)
             else:
                 parameters[k] = param_v
-            return parameters
+        return parameters
 
     @dia(enable=True)
     def get(self, *args, **kwargs):

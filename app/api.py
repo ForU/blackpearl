@@ -22,74 +22,102 @@ c_pl=pl_client.PollensClient()
 c_pl.connect('127.0.0.1', 9000)
 
 
-class test(BlackPearlRequestHandler):
+class user(BlackPearlRequestHandler):
+    def home(self, uid={'type':int,'required':True}):
+        # TODO Fri Jul 17 14:28:55 2015 []
+        # check exists first
 
-    def getPiecesList(self):
-        user = c_hc.getUser(user_id=1)
-        piece_ids = list(xrange(100))
-        pieces = c_pl.getPieces(piece_ids=piece_ids)
+        # user, pieces, albums, followers, following
+        user = c_hc.getUser(uid)
+        pieces_total, pieces = c_pl.getPiecesTotalOfOwner(uid), c_pl.getPiecesOfOwner(uid)
+        albums_total, albums = c_pl.getAlbumsTotalOfOwner(uid), c_pl.getAlbumsOfOwner(uid)
+        followers = c_hc.getUserFollowRelationship(hc_client.CommonConstants.FOLLOW_MODE_FOLLOWER, uid)
+        following = c_hc.getUserFollowRelationship(hc_client.CommonConstants.FOLLOW_MODE_FOLLOWING, uid)
 
-        results = []
+        # refine pieces
         for i in pieces:
-            print i.targets[0]
-            owner = c_hc.getUser(i.owner_id)
-            # OK, compose piece item
-            item = {}
-            item['url'] = i.targets[0].url
-            item['owner'] = owner.nick_name
-            item['owner_id'] = owner.id
-            results.append(item)
-        return Response(result=results)
+            i.targets = [item.__dict__ for item in i.targets]
+
+        # compose data
+        ret = {
+            'user': user.__dict__,
+            'pieces': {'total':pieces_total, 'contents':[i.__dict__ for i in pieces]},
+            'albums': {'total':albums_total, 'contents':[i.__dict__ for i in albums]},
+            'followers': {'total': followers.total, 'contents':[i.__dict__ for i in followers.users]},
+            'following': {'total': following.total, 'contents':[i.__dict__ for i in following.users]},
+        }
+        return Response(result=ret)
+
+    def me(self, uid={'type':int,'required':True}):
+        pass
+
+
+class common(BlackPearlRequestHandler):
+
+    # def pieces(self, user_id={'type':int, 'required':True},
+    #            page={'type':int, 'default':1},
+    #            n={'type':int, 'default':10}):
+    #     # TODO Wed Jul  8 09:56:27 2015 []
+    #     """
+    #     @user_id: id of user
+    #     @page: page index
+    #     @n: maybe we should hide this
+    #     """
+    #     user = c_hc.getUser(user_id=1)
+    #     piece_ids = list(xrange(100))
+    #     pieces = c_pl.getPieces(piece_ids=piece_ids)
+    #     # import ipdb; ipdb.set_trace()
+
+    #     results = []
+    #     for i in pieces.pieces:
+    #         print i.targets[0]
+    #         owner = c_hc.getUser(i.owner_id)
+    #         # OK, compose piece item
+    #         item = {}
+    #         item['url'] = i.targets[0].url
+    #         item['owner'] = owner.nick_name
+    #         item['owner_id'] = owner.id
+    #         results.append(item)
+    #     return Response(result=results)
 
     def piece(self, id={'type':int, 'required':True}):
-        """
-        piece, owner, heart-ers, tags(#love, #travel)
-        """
+        """detail"""
         piece_id = id
         try:
-            result = {}
             piece = c_pl.getPiece(piece_id)
-            result['targets'] = [ {'url':i.url, 'motion':i.motion} for i in piece.targets ]
+        except Exception as e:
+            return Response(AppConstants.RC_FAILED_GET_PIECE, why=str(e))
 
-            # TODO Thu Jul  2 17:42:12 2015 []
-            result['create_time'] = piece.create_time
-            # get owner
-            try:
-                owner = c_hc.getUser(piece.owner_id)
-            except Exception as e:
-                print "[WARNING] exc occurs while get owner:%s of piece:%s caz:%s" % (piece.owner_id, piece_id, e)
-                # TODO Thu Jun 25 15:17:59 2015 [fatal error, ResponseCode]
-            result['owner'] = { 'avatar':owner.avatar, 'name':owner.nick_name, 'id':owner.id }
+        # handle piece's attributes
+        piece_detail = {}
+        piece_detail['cover'] = piece.cover
+        piece_detail['name'] = piece.name
+        piece_detail['domain'] = piece.domain
+        piece_detail['price'] = piece.price
+        piece_detail['price_unit'] = 'rmb'
+        piece_detail['origin_price'] = piece.origin_price
+        piece_detail['brief'] = piece.brief
 
-            # get comments
-            comments = []
-            result['comments'] = { 'total':200, 'comments': comments }
+        # lovers, collectors (only count)
+        plovers = c_pl.getPieceLovers(piece_id, 0, 0)
+        piece_detail['lovers_total'] = plovers.total
 
-            # get heart-ers
-            hearters = []
-            result['hearters'] = {'total':100, 'hearters':hearters}
-            for i in piece.follower_ids:
-                try:
-                    u = c_hc.getUser(i)
-                except Exception as e:
-                    print "[WARNING] exc occurs while get user:%s, caz:%s" % (piece.owner_id, e)
-                    continue
-                h = { 'avatar':u.avatar, 'name':u.nick_name, 'id':u.id }
-                hearters.append( h )
+        # piece.owner(other than colloctors)
+        try:
+            owner = c_hc.getUser(piece.owner_id)
+        except Exception as e:
+            return Response(AppConstants.RC_FAILED_GET_PIECE, why=str(e))
 
-            # brief
-            result['brief'] = piece.brief
-            # [TODO] get tags
-            return Response(result=result)
-        except TIOError as e:
-            print 'TIOError', e
-            return Response(AppConstants.RC_FAILED_GET_PIECE, why=e._message)
-        except TIllegalArgument as e:
-            print 'TIllegalArgument', e
-            return Response(AppConstants.RC_FAILED_GET_PIECE, why=e._message)
-        except TApiError as e:
-            print 'TApiError', e
-            return Response(AppConstants.RC_FAILED_GET_PIECE, why=e._message)
+        powner = {}
+        powner['id'] = owner.id
+        powner['nick_name'] = owner.nick_name
+        powner['avatar'] = owner.avatar
+
+        piece_detail['owner'] = powner
+
+        # owner's album contains this piece
+
+        return Response(result=piece_detail)
 
     def follow(self,
                session_id={'type':long, 'required':True},

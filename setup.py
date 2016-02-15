@@ -9,11 +9,10 @@ try:
 except ImportError:
     pass
 
-from blackpearl import co_version
 
 setup (
     name = 'blackpearl',
-    version = co_version.version,
+    version = 0.1,
     keywords = ('The God Of The Sea'),
     description = 'A Simple Mysql Db Access Layer',
     author = 'jacoolee (515563130@qq.com)',

@@ -116,6 +116,8 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             print e
             response = Response(code=Constants.RC_UNKNOWN, why=str(e))
         try:
+            # FIXME 
+            self.add_header('Access-Control-Allow-Origin', '*')
             self.write( response.dumpAsJson() )
             return
         except Exception as e:

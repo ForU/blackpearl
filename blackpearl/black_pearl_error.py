@@ -12,4 +12,4 @@ class ResponseException(Exception):
         self.response_code = response_code
         self.why = why
         super(ResponseException, self).__init__(*args, **kwargs)
-        print 'response_code:%s, %s, %s' % (response_code, args, kwargs)
+        print 'ResponseException: response_code:%s, %s, %s' % (response_code, args, kwargs)

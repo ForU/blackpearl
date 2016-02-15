@@ -78,7 +78,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
                                          why='refer to iface definition guide plz~' )
             if v.required:
                 if k not in req_args:
-                    why = "[FATAL] '%s' is required of iface:'%s'" % (k, iface_complete)
+                    why = "[FATAL] '%s' is required for iface:'%s'" % (k, iface_complete)
                     raise ResponseException(Constants.RC_IFACE_INVALID_PARAMETER, why=why)
                 else:
                     param_v = req_args.get(k,[None])[0]
@@ -87,7 +87,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             try:
                 param_v = v.type(param_v)
             except Exception as e:
-                why = "[FATAL] '%s' of '%s' need to be '%s' compatible, '%s'" % (v,k,v.type,e)
+                why = "[FATAL] '%s' of '%s' need to be '%s' compatible, '%s'" % (v,k,str(v.type),e)
                 raise ResponseException(Constants.RC_IFACE_INVALID_PARAMETER, why=why)
 
             # check param_v no matter where do we get it!
@@ -110,13 +110,14 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             parameters = self._get_iface_params(iface_complete) or {}
             response = getattr(self, iface)(**parameters)
         except ResponseException as e:
-            print e
-            response = Response(code=Constants.RC_UNKNOWN, why=str(e))
+            # print "Normal Process ResponseException caught: %s" % (e)
+            # TODO only debug mode show the why to api caller
+            response = Response(code=e.response_code, why=str(e.why))
         except Exception as e:
-            print e
-            response = Response(code=Constants.RC_UNKNOWN, why=str(e))
+            print "Normal Process Exception: %s" % (e)
+            response = Response(code=Constants.RC_UNKNOWN, why='Normal Process Exception:'+str(e))
         try:
-            # FIXME 
+            # FIXME
             self.add_header('Access-Control-Allow-Origin', '*')
             self.write( response.dumpAsJson() )
             return
@@ -124,7 +125,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             # if write fails, the requester never get data, so the
             # only soundable and valuable reason for client is that
             # F:json.dumps fails.
-            print e
+            # print "WRITE Exception caught: %s" % (e)
             response = Response(code=Constants.RC_JSON_DUMPS_FAILED, why=str(e))
             self.write( response.dumpAsJson() )
 

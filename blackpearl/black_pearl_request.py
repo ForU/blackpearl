@@ -33,7 +33,7 @@ def dia(enable=True):
                 # TODO Fri Apr  3 02:48:39 2015
                 # more ...
                 print "- [%s] %s timecost:%6fms, remote_ip:'%s', api:'%s' -" % (time.asctime(), req_handler.request.method, (e-s)*1000, req_handler.request.remote_ip, req_handler.request.uri)
-
+                print '- response: ' + req_handler.request.uri + " => " + str(f_ret_val) if f_ret_val else ''
                 return f_ret_val
             return f(*args, **kwargs)
         return _f_wrapper
@@ -119,6 +119,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             traceback.print_exc()
             print "Normal Process Exception: %s" % (e)
             response = Response(code=Constants.RC_UNKNOWN, why='Normal Process Exception:'+str(e))
+
         try:
             # FIXME
             self.add_header('Access-Control-Allow-Origin', '*')
@@ -132,6 +133,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             response = Response(code=Constants.RC_JSON_DUMPS_FAILED, why=str(e))
             self.write( response.dumpAsJson() )
 
+    @dia(enable=True)
     def post(self, *args, **kwargs):
         # import ipdb; ipdb.set_trace()
         self.get(*args, **kwargs)

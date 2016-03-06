@@ -75,21 +75,21 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
         parameters , req_args = {}, self.request.arguments
         for k,v in iface_restriction.items():
             if not isinstance(v, Magic):
-                raise ResponseException( Constants.RC_IFACE_UNPROPERLY_DEFINED,
-                                         why='refer to iface definition guide plz~' )
-            if v.required:
-                if k not in req_args:
-                    why = "[FATAL] '%s' is required for iface:'%s'" % (k, iface_complete)
-                    raise ResponseException(Constants.RC_IFACE_INVALID_PARAMETER, why=why)
-                else:
-                    param_v = req_args.get(k,[None])[0]
-            else:
-                param_v = v.default
-            try:
-                param_v = v.type(param_v)
-            except Exception as e:
-                why = "[FATAL] '%s' of '%s' need to be '%s' compatible, '%s'" % (v,k,str(v.type),e)
+                raise ResponseException( Constants.RC_IFACE_UNPROPERLY_DEFINED, why='refer to iface definition guide plz~' )
+
+            val = req_args.get(k,[None])[0]
+            if v.required and val == None:
+                why = "[FATAL] '%s' is required for iface:'%s'" % (k, iface_complete)
                 raise ResponseException(Constants.RC_IFACE_INVALID_PARAMETER, why=why)
+            param_v = val if val != None else v.default
+
+            # auto convert.
+            if v.type:
+                try:
+                    param_v = v.type(param_v)
+                except Exception as e:
+                    why = "[FATAL] '%s' of '%s' need to be '%s' compatible, '%s'" % (v,k,str(v.type),e)
+                    raise ResponseException(Constants.RC_IFACE_INVALID_PARAMETER, why=why)
 
             # check param_v no matter where do we get it!
             if v.value_enum and param_v not in v.value_enum:
@@ -100,6 +100,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
                 raise ResponseException(Constants.RC_IFACE_INVALID_PARAMETER, why=why)
             else:
                 parameters[k] = param_v
+
         return parameters
 
     @dia(enable=True)

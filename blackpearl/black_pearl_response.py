@@ -11,7 +11,7 @@ from black_pearl_constants import Constants
 
 
 class Response(object):
-    def __init__(self, code=Constants.RC_SUCCESS, why='', result=None, extra={}):
+    def __init__(self, result=None, code=Constants.RC_SUCCESS, why='', extra={}):
         self.code = code
         self.why = why
         self.result = result

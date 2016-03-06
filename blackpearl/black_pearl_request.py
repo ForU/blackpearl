@@ -4,6 +4,7 @@
 """
 A more features added request wrapper
 """
+import traceback
 
 import tornado
 import time
@@ -110,10 +111,12 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             parameters = self._get_iface_params(iface_complete) or {}
             response = getattr(self, iface)(**parameters)
         except ResponseException as e:
+            print "Normal Process ResponseException: %s" % (e)
             # print "Normal Process ResponseException caught: %s" % (e)
             # TODO only debug mode show the why to api caller
             response = Response(code=e.response_code, why=str(e.why))
         except Exception as e:
+            traceback.print_exc()
             print "Normal Process Exception: %s" % (e)
             response = Response(code=Constants.RC_UNKNOWN, why='Normal Process Exception:'+str(e))
         try:
@@ -130,8 +133,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             self.write( response.dumpAsJson() )
 
     def post(self, *args, **kwargs):
-        import ipdb; ipdb.set_trace()
-
+        # import ipdb; ipdb.set_trace()
         self.get(*args, **kwargs)
 
 

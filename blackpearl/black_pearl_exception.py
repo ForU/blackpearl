@@ -6,13 +6,12 @@ black pearl exceptions
 """
 
 class BlackPearlException(Exception):
-    def __init__(self, ):
-        self.what = self.message
+    def __init__(self, *args, **kwargs):
+        super(BlackPearlException, self).__init__(*args, **kwargs)
 
-    @property
-    def what(self):
-        return self.message
-
+class Break(BlackPearlException):
+    def __init__(self, *args, **kwargs):
+        super(Break, self).__init__(*args, **kwargs)
 
 class NotImplementedInterface(BlackPearlException):
     pass

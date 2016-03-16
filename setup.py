@@ -12,13 +12,13 @@ except ImportError:
 
 setup (
     name = 'blackpearl',
-    version = 0.1,
+    version = 0.3,
     keywords = ('The God Of The Sea'),
     description = 'A Simple Mysql Db Access Layer',
     author = 'jacoolee (515563130@qq.com)',
     packages = [ 'blackpearl' ],
 )
 
-useless_files = "build dist blackpearl.egg-info"
+useless_files = "build dist" # blackpearl.egg-info"
 print "removing non-sense files: %s [%s]" % ( useless_files, 'OK' if 0 == os.system( 'rm -rf %s' % useless_files ) else 'FAILED' )
 print "blackpearl successfully installed, well done"

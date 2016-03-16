@@ -10,25 +10,41 @@ from black_pearl_uom import BlackPearlUOM
 from black_pearl_request import BlackPearlRequestHandler
 
 class BlackPearlServer(object):
-    def __init__(self, configure_manager=None):
+    def __init__(self, debug=True, port=80, configure_manager=None, modules=[], handlers=[], **application_settings):
+        self.debug = debug
+        self.port = port
         self.cm = configure_manager
-        self.handlers = None
+        self.modules = modules
+        self.handlers = handlers
+        self.application_settings = application_settings
 
-    def init(self):
-        print "initializing server ..."
-        BlackPearlUOM.importModule('api')
-        # ...
-        self.handlers = BlackPearlUOM.load((BlackPearlRequestHandler,))
+        self._post_init()
+
+    def before_run(self, *args,**kwargs):
+        pass
+
+    def _post_init(self):
+        print 'post initialization ...'
+        for i in self.modules:
+            BlackPearlUOM.importModule(i)
+        module_handers = BlackPearlUOM.load((BlackPearlRequestHandler,))
+        self.handlers += module_handers
+        self.application_settings['debug'] = self.debug
+
         print BlackPearlUOM.info()
 
-    def run(self):
-        print "running server @localhost:8888 ..."
-        # TODO Mon May  4 17:00:35 2015 [load from configure file]
-        application = tornado.web.Application( self.handlers )
-        application.listen(8888)
-        tornado.ioloop.IOLoop.instance().start()
+    def run(self, *args, **kwargs):
+        print "before running server, do ..."
+        self.before_run(*args, **kwargs)
 
-if __name__ == "__main__":
-    svr = BlackPearlServer()
-    svr.init()
-    svr.run()
+        print "running server http://localhost:"+str(self.port)
+
+        if self.debug:
+            print 'handler count: '+str(len(self.handlers))
+            print 'modules count: '+str(len(self.modules))
+            print 'app settings:  '+str(self.application_settings)
+
+        # run.
+        application = tornado.web.Application( self.handlers, **self.application_settings )
+        application.listen(self.port)
+        tornado.ioloop.IOLoop.instance().start()

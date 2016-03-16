@@ -16,6 +16,7 @@ from black_pearl_constants import Constants
 from black_pearl_response import Response
 from black_pearl_error import ResponseException
 from black_pearl_utils import Magic
+from black_pearl_exception import Break
 
 
 def dia(enable=True):
@@ -103,17 +104,63 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
 
         return parameters
 
+    def _before_get(self, *args, **kwargs):
+        """@return Ok, Response
+        default: True, Response(code=Constants.RC_SUCCESS)
+        """
+        return True, Response(code=Constants.RC_SUCCESS)
+
+    def _after_get(self, *args, **kwargs):
+        """@return Ok, Response
+        default: True, Response(code=Constants.RC_SUCCESS)
+        """
+        return True, Response(code=Constants.RC_SUCCESS)
+
     @dia(enable=True)
     def get(self, *args, **kwargs):
+        print str(self.cookies)
         """ do all magic here"""
         print 'TODO session_id:', self.get_cookie('session_id')
         try:
             iface_complete, iface = self._get_interface()
             parameters = self._get_iface_params(iface_complete) or {}
+
+            response = None
+            resp = Response(code=Constants.RC_SUCCESS)
+            ok = True
+
+            # CRITICAL: before get
+            # _before_get_xxxxx has high priority than the shared function:_before_get.
+            # if has no such function:_before_get_xxxxx, use the default sharedone
+            try:
+                ok, resp = getattr(self, '_before_get_'+iface)(**parameters)
+            except AttributeError as e:
+                ok, resp = self._before_get(*args, **kwargs)
+            finally:
+                if not ok:      # overwrite the real response only not ok
+                    response = resp
+                    raise Break('_before_get')
+
+            # getattr(self, '_after_get_'+iface)(**parameters) # TODO: fine-gained controller
+
+            # real get
             response = getattr(self, iface)(**parameters)
+            to_break = True
+
+            try:
+                ok, resp = getattr(self, '_after_get_'+iface)(**parameters)
+            except AttributeError as e:
+                ok, resp = self._after_get(*args, **kwargs)
+            finally:
+                if not ok:      # overwrite the real response only not ok
+                    response = resp
+                    raise Break('_after_get')
+
+        except Break as e:
+            # CRITICAL: here we do not modify the response.
+            print "Break for "+str(e)
         except ResponseException as e:
             print "Normal Process ResponseException: %s" % (e)
-            # print "Normal Process ResponseException caught: %s" % (e)
             # TODO only debug mode show the why to api caller
             response = Response(code=e.response_code, why=str(e.why))
         except Exception as e:

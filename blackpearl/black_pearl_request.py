@@ -41,6 +41,8 @@ def dia(enable=True):
     return dec
 
 
+debug = False 
+
 class BlackPearlRequestHandler(tornado.web.RequestHandler):
     def _show_request(self, whole=False):
         keys = self.request.__dict__.keys()
@@ -162,11 +164,11 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
         except ResponseException as e:
             print "Normal Process ResponseException: %s" % (e)
             # TODO only debug mode show the why to api caller
-            response = Response(code=e.response_code, why=str(e.why))
+            response = Response(code=e.response_code, why=str(e.why) if debug else '')
         except Exception as e:
             traceback.print_exc()
             print "Normal Process Exception: %s" % (e)
-            response = Response(code=Constants.RC_UNKNOWN, why='Normal Process Exception:'+str(e))
+            response = Response(code=Constants.RC_UNKNOWN, why=('Normal Process Exception:'+str(e)) if debug else '')
 
         try:
             # FIXME

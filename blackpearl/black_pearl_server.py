@@ -10,7 +10,7 @@ from black_pearl_uom import BlackPearlUOM
 from black_pearl_request import BlackPearlRequestHandler
 
 class BlackPearlServer(object):
-    def __init__(self, debug=True, port=80, configure_manager=None, modules=[], handlers=[], **application_settings):
+    def __init__(self, debug=True, port=8888, configure_manager=None, modules=[], handlers=[], **application_settings):
         self.debug = debug
         self.port = port
         self.cm = configure_manager

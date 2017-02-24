@@ -8,5 +8,5 @@ from blackpearl.black_pearl_server import BlackPearlServer
 
 if __name__ == '__main__':
     svr = BlackPearlServer()
-    svr.init()
+    #svr.init()
     svr.run()

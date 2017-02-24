@@ -31,7 +31,11 @@ class BlackPearlUOM(object):
 
     @classmethod
     def info(cls):
-        return str(cls.module_objs) + str(cls.interface_infos)
+        interfaces = ''
+        for k,v in cls.interface_infos.items():
+            interfaces +=( "%s %s\n" % (k, v))
+
+        return str(cls.module_objs) + '\n' + '_'*100 + '\n' + interfaces
 
     @classmethod
     def _get_classes_from_module(cls, module_obj, BaseClassTypes=(object,)):

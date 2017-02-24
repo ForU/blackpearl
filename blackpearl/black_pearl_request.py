@@ -10,6 +10,7 @@ import tornado
 import time
 import functools
 import json
+import urllib2
 
 from black_pearl_uom import BlackPearlUOM
 from black_pearl_constants import Constants
@@ -84,12 +85,14 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             if v.required and val == None:
                 why = "[FATAL] '%s' is required for iface:'%s'" % (k, iface_complete)
                 raise ResponseException(Constants.RC_IFACE_INVALID_PARAMETER, why=why)
-            param_v = val if val != None else v.default
+            param_v = urllib2.unquote(val) if val != None else v.default
 
             # auto convert.
             if v.type:
                 try:
-                    param_v = v.type(param_v)
+                    # CRITICAL: we allow None show as it is to API other than typed.
+                    if param_v is not None:
+                        param_v = v.type(param_v)
                 except Exception as e:
                     why = "[FATAL] '%s' of '%s' need to be '%s' compatible, '%s'" % (v,k,str(v.type),e)
                     raise ResponseException(Constants.RC_IFACE_INVALID_PARAMETER, why=why)
@@ -144,8 +147,8 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
                     raise Break('_before_get')
 
             # getattr(self, '_after_get_'+iface)(**parameters) # TODO: fine-gained controller
-
             # real get
+            print parameters
             response = getattr(self, iface)(**parameters)
             to_break = True
 
@@ -162,7 +165,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             # CRITICAL: here we do not modify the response.
             print "Break for "+str(e)
         except ResponseException as e:
-            print "Normal Process ResponseException: %s" % (e)
+            print "Normal Process ResponseException: %s, %s" % (e, e.why)
             # TODO only debug mode show the why to api caller
             response = Response(code=e.response_code, why=str(e.why) if debug else '')
         except Exception as e:
@@ -173,7 +176,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
         try:
             # FIXME
             self.add_header('Access-Control-Allow-Origin', '*')
-            self.write( response.dumpAsJson() )
+            self.write( response.convert() )
             return
         except Exception as e:
             # if write fails, the requester never get data, so the
@@ -181,7 +184,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             # F:json.dumps fails.
             # print "WRITE Exception caught: %s" % (e)
             response = Response(code=Constants.RC_JSON_DUMPS_FAILED, why=str(e))
-            self.write( response.dumpAsJson() )
+            self.write( response.convert() )
 
     @dia(enable=True)
     def post(self, *args, **kwargs):

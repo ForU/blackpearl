@@ -11,13 +11,17 @@ from black_pearl_constants import Constants
 
 
 class Response(object):
-    def __init__(self, result=None, code=Constants.RC_SUCCESS, why='', extra={}):
+    def __init__(self, result=None, code=Constants.RC_SUCCESS, why='', extra={}, use_raw_data=False):
         self.code = code
         self.why = why
         self.result = result
         self.extra = extra
+        self.use_raw_data = use_raw_data
 
-    def dumpAsJson(self):
+    def convert(self):
+        if self.use_raw_data:
+            return self.result
+
         d = { 'code': self.code.code,
               'info': self.code.info,
               'why': self.why,

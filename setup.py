@@ -15,13 +15,13 @@ print "removing non-sense files: %s [%s]" % ( useless_files, 'OK' if 0 == os.sys
 
 setup (
     name = 'blackpearl',
-    version = 0.601,
+    version = 0.604,
     keywords = ('web front end server'),
     description = '',
     author = 'jacoolee (515563130@qq.com)',
     packages = [ 'blackpearl' ],
 )
 
-# print "removing non-sense files: %s [%s]" % ( useless_files, 'OK' if 0 == os.system( 'rm -rf %s' % useless_files ) else 'FAILED' )
+print "removing non-sense files: %s [%s]" % ( useless_files, 'OK' if 0 == os.system( 'rm -rf %s' % useless_files ) else 'FAILED' )
 
 print "blackpearl successfully installed, well done"

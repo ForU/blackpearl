@@ -8,7 +8,7 @@
 import json
 
 from black_pearl_constants import Constants
-
+from black_pearl_utils import log
 
 class Response(object):
     def __init__(self, result=None, code=Constants.RC_SUCCESS, why='', extra={}, use_raw_data=False):
@@ -31,5 +31,5 @@ class Response(object):
         try:
             return json.dumps( d )
         except Exception as e:
-            print "failed to dump response as json, raise exception"
+            log.error( "failed to dump response as json, raise exception")
             raise e

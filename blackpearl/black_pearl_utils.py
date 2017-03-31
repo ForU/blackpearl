@@ -34,3 +34,43 @@ class DeepMagic(object):
         # main
         __inner_do_magic(self, kwargs)
 
+
+
+class log(object):
+    WHITE     = '\033[0m'
+    RED       = '\033[31m'
+    GREEN     = '\033[32m'
+    ORANGE    = '\033[33m'
+    BLUE      = '\033[34m'
+    PURPLE    = '\033[35m'
+
+    HEADER    = '\033[95m'
+    OKBLUE    = '\033[94m'
+    OKGREEN   = '\033[92m'
+    WARNING   = '\033[93m'
+    FAIL      = '\033[91m'
+    BOLD      = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+    ENDC      = '\033[0m'
+
+    @classmethod
+    def error(cls, *args, **kwargs):
+        print cls.RED + cls.BOLD + "BLACKPEARL ERROR: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+
+    @classmethod
+    def warn(cls, *args, **kwargs):
+        print cls.WARNING + cls.BOLD + "BLACKPEARL WARN: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+
+    @classmethod
+    def debug(cls, *args, **kwargs):
+        print cls.OKBLUE + "BLACKPEARL DEBUG: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+
+
+    @classmethod
+    def dia(cls, *args, **kwargs):
+        print cls.PURPLE + "BLACKPEARL DIA: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+
+    @classmethod
+    def info(cls, *args, **kwargs):
+        print "BLACKPEARL INFO: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC

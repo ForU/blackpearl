@@ -16,7 +16,7 @@ from black_pearl_uom import BlackPearlUOM
 from black_pearl_constants import Constants
 from black_pearl_response import Response
 from black_pearl_error import ResponseException
-from black_pearl_utils import Magic
+from black_pearl_utils import Magic, log
 from black_pearl_exception import Break
 
 
@@ -34,28 +34,28 @@ def dia(enable=True):
                 req_handler = args[0]
                 # TODO Fri Apr  3 02:48:39 2015
                 # more ...
-                print "- [%s] %s timecost:%6fms, remote_ip:'%s', api:'%s' -" % (time.asctime(), req_handler.request.method, (e-s)*1000, req_handler.request.remote_ip, req_handler.request.uri)
-                print '- response: ' + req_handler.request.uri + " => " + str(f_ret_val) if f_ret_val else ''
+                log.dia("- [%s] %s timecost:%6fms, remote_ip:'%s', api:'%s' -" % (time.asctime(), req_handler.request.method, (e-s)*1000, req_handler.request.remote_ip, req_handler.request.uri))
+                #log.info('- response: ' + req_handler.request.uri + " => " + str(f_ret_val) if f_ret_val else '')
                 return f_ret_val
             return f(*args, **kwargs)
         return _f_wrapper
     return dec
 
 
-debug = False 
+debug = False
 
 class BlackPearlRequestHandler(tornado.web.RequestHandler):
     def _show_request(self, whole=False):
         keys = self.request.__dict__.keys()
         keys.sort()
-        print '_'*100
+        log.info('_'*100)
         for k in keys:
             if whole:
                 v = str(self.request.__dict__[k])
             else:
                 v = str(self.request.__dict__[k])[:80]
-            print "| %15s | %s" % (k, v)
-        print '_'*100
+            log.info("| %15s | %s" % (k, v))
+        log.info('_'*100)
 
     def _get_interface(self):
         # CRITICAL: simple
@@ -156,6 +156,8 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             iface_complete, iface = self._get_interface()
             parameters, generic_parameters = self._get_iface_params(iface_complete, self._inject_generic_arguments()) or {}
 
+            log.debug("[PROCESSING]:", iface_complete, parameters, generic_parameters)
+
             response = None
             resp = Response(code=Constants.RC_SUCCESS)
             ok = True
@@ -186,14 +188,14 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
 
         except Break as e:
             # CRITICAL: here we do not modify the response.
-            print "Break for "+str(e)
+            log.warn("Break for "+str(e))
         except ResponseException as e:
-            print "Normal Process ResponseException: %s, %s" % (e, e.why)
+            log.error("Normal Process ResponseException: %s, %s" % (e, e.why))
             # TODO only debug mode show the why to api caller
             response = Response(code=e.response_code, why=str(e.why) if debug else '')
         except Exception as e:
-            traceback.print_exc()
-            print "Normal Process Exception: %s" % (e)
+            log.error(traceback.format_exc()+'\b')
+            log.error("Normal Process Exception: %s" % (e))
             response = Response(code=Constants.RC_UNKNOWN, why=('Normal Process Exception:'+str(e)) if debug else '')
 
         try:
@@ -205,11 +207,10 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             # if write fails, the requester never get data, so the
             # only soundable and valuable reason for client is that
             # F:json.dumps fails.
-            # print "WRITE Exception caught: %s" % (e)
+            # log.error("WRITE Exception caught: %s" % (e))
             response = Response(code=Constants.RC_JSON_DUMPS_FAILED, why=str(e))
             self.write( response.convert() )
 
-    @dia(enable=True)
     def post(self, *args, **kwargs):
         self.get(*args, **kwargs)
 

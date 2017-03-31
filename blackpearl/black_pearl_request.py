@@ -65,23 +65,45 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             url_pattern = self.request.uri
         return ( url_pattern, url_pattern.split('/')[-1].strip() )
 
-    def _get_iface_params(self, iface_complete):
+    def _get_iface_params(self, iface_complete, generic_args_restriction={}):
         iface_args = BlackPearlUOM.getArgs(iface_complete)
+
+        # process iface defined arguments
         if not iface_args:
             raise ResponseException(Constants.RC_NEVER_HAPPEN, why="unregistered '%s'" % iface_complete)
         iface_params, iface_restriction = iface_args[0], iface_args[1]
-
         # CRITICAL: has parameter but no restriction
         if iface_params and not iface_restriction:
             raise ResponseException( Constants.RC_IFACE_UNPROPERLY_DEFINED,
                                      why='refer to iface definition guide plz~' )
 
-        parameters , req_args = {}, self.request.arguments
-        for k,v in iface_restriction.items():
+
+        # process generic defined arguments
+        if not isinstance( generic_args_restriction, dict):
+            raise ResponseException( Constants.RC_IFACE_UNPROPERLY_DEFINED,
+                                     why='generic arguments restrict should be a dict' )
+
+        generic_args_restriction = { k: Magic( required    = v.get('required'),
+                                               type        = v.get('type'),
+                                               default     = v.get('default'),
+                                               value_enum  = v.get('value_enum'),
+                                               value_range = v.get('value_enum')
+                                           )
+                                        for k,v in generic_args_restriction.items()}
+
+        generic_parameters = self._get_iface_params_from_request_by_restrict(self.request.body_arguments, generic_args_restriction)
+        iface_parameters = self._get_iface_params_from_request_by_restrict(self.request.body_arguments, iface_restriction)
+        return iface_parameters, generic_parameters
+
+
+    def _get_iface_params_from_request_by_restrict(self, request_arguments, arguments_restriction):
+        parameters , req_args = {}, request_arguments
+        for k,v in arguments_restriction.items():
             if not isinstance(v, Magic):
                 raise ResponseException( Constants.RC_IFACE_UNPROPERLY_DEFINED, why='refer to iface definition guide plz~' )
 
             val = req_args.get(k,[None])[0]
+
             if v.required and val == None:
                 why = "[FATAL] '%s' is required for iface:'%s'" % (k, iface_complete)
                 raise ResponseException(Constants.RC_IFACE_INVALID_PARAMETER, why=why)
@@ -109,26 +131,30 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
 
         return parameters
 
-    def _before_get(self, *args, **kwargs):
+    def _before_get(self, **params):
         """@return Ok, Response
         default: True, Response(code=Constants.RC_SUCCESS)
         """
         return True, Response(code=Constants.RC_SUCCESS)
 
-    def _after_get(self, *args, **kwargs):
+    def _after_get(self, **params):
         """@return Ok, Response
         default: True, Response(code=Constants.RC_SUCCESS)
         """
         return True, Response(code=Constants.RC_SUCCESS)
+
+    def _inject_generic_arguments(self):
+        """
+        return: a dict as: { genericArgName: genericArgRestrict }
+        """
+        return {}
 
     @dia(enable=True)
     def get(self, *args, **kwargs):
-        print str(self.cookies)
         """ do all magic here"""
-        #print 'TODO session_id:', self.get_cookie('session_id')
         try:
             iface_complete, iface = self._get_interface()
-            parameters = self._get_iface_params(iface_complete) or {}
+            parameters, generic_parameters = self._get_iface_params(iface_complete, self._inject_generic_arguments()) or {}
 
             response = None
             resp = Response(code=Constants.RC_SUCCESS)
@@ -136,11 +162,11 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
 
             # CRITICAL: before get
             # _before_get_xxxxx has high priority than the shared function:_before_get.
-            # if has no such function:_before_get_xxxxx, use the default sharedone
+            # if has no such function:_before_get_xxxxx, use the default shared one
             try:
                 ok, resp = getattr(self, '_before_get_'+iface)(**parameters)
             except AttributeError as e:
-                ok, resp = self._before_get(*args, **kwargs)
+                ok, resp = self._before_get(**generic_parameters)
             finally:
                 if not ok:      # overwrite the real response only not ok
                     response = resp
@@ -149,12 +175,10 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             # getattr(self, '_after_get_'+iface)(**parameters) # TODO: fine-gained controller
             # real get
             response = getattr(self, iface)(**parameters)
-            to_break = True
-
             try:
-                ok, resp = getattr(self, '_after_get_'+iface)(**parameters)
+                ok, resp = getattr(self, '_after_get_'+iface)(**generic_parameters)
             except AttributeError as e:
-                ok, resp = self._after_get(*args, **kwargs)
+                ok, resp = self._after_get(**generic_parameters)
             finally:
                 if not ok:      # overwrite the real response only not ok
                     response = resp
@@ -187,7 +211,6 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
 
     @dia(enable=True)
     def post(self, *args, **kwargs):
-        # import ipdb; ipdb.set_trace()
         self.get(*args, **kwargs)
 
 

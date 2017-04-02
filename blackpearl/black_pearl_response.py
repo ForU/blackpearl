@@ -6,6 +6,7 @@
 # normal response and error response
 
 import json
+import random
 
 from black_pearl_constants import Constants
 from black_pearl_utils import log
@@ -22,12 +23,13 @@ class Response(object):
         if self.use_raw_data:
             return self.result
 
-        d = { 'code': self.code.code,
-              'info': self.code.info,
-              'why': self.why,
-              'result': self.result,
-              'extra': self.extra
-          }
+        d = {
+            'code': self.code.code,
+            'info': self.code.info,
+            'why': self.why,
+            'result': self.result,
+            'extra': self.extra,
+        }
         try:
             return json.dumps( d )
         except Exception as e:

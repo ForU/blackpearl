@@ -52,6 +52,13 @@ class log(object):
     BOLD      = '\033[1m'
     UNDERLINE = '\033[4m'
 
+    BRED      = '\033[41m'
+    BGREEN    = '\033[42m'
+    BYELLOW   = '\033[43m'
+    BBLUE     = '\033[44m'
+    BPINK     = '\033[45m'
+    BCYAN     = '\033[46m'
+
     ENDC      = '\033[0m'
 
     @classmethod
@@ -66,6 +73,9 @@ class log(object):
     def debug(cls, *args, **kwargs):
         print cls.OKBLUE + "BLACKPEARL DEBUG: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
 
+    @classmethod
+    def hidebug(cls, *args, **kwargs):
+        print cls.BOLD+ cls.WHITE + cls.BCYAN + "BLACKPEARL DEBUG: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
 
     @classmethod
     def dia(cls, *args, **kwargs):

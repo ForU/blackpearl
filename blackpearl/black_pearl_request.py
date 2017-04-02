@@ -91,12 +91,12 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
                                            )
                                         for k,v in generic_args_restriction.items()}
 
-        generic_parameters = self._get_iface_params_from_request_by_restrict(self.request.body_arguments, generic_args_restriction)
-        iface_parameters = self._get_iface_params_from_request_by_restrict(self.request.body_arguments, iface_restriction)
+        generic_parameters = self._get_iface_params_from_request_by_restrict(iface_complete, self.request.body_arguments, generic_args_restriction)
+        iface_parameters = self._get_iface_params_from_request_by_restrict(iface_complete, self.request.body_arguments, iface_restriction)
         return iface_parameters, generic_parameters
 
 
-    def _get_iface_params_from_request_by_restrict(self, request_arguments, arguments_restriction):
+    def _get_iface_params_from_request_by_restrict(self, iface_complete, request_arguments, arguments_restriction):
         parameters , req_args = {}, request_arguments
         for k,v in arguments_restriction.items():
             if not isinstance(v, Magic):
@@ -143,6 +143,15 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
         """
         return True, Response(code=Constants.RC_SUCCESS)
 
+    def _very_before_get(self, *args, **kwargs):
+        """
+        return: a dict as: { genericArgName: genericArgRestrict }
+        """
+        pass
+
+    def _very_after_get(self, response):
+        return response
+
     def _inject_generic_arguments(self):
         """
         return: a dict as: { genericArgName: genericArgRestrict }
@@ -153,14 +162,25 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         """ do all magic here"""
         try:
-            iface_complete, iface = self._get_interface()
-            parameters, generic_parameters = self._get_iface_params(iface_complete, self._inject_generic_arguments()) or {}
-
-            log.debug("[PROCESSING]:", iface_complete, parameters, generic_parameters)
-
             response = None
             resp = Response(code=Constants.RC_SUCCESS)
             ok = True
+
+            log.hidebug("[PROCESSING]:", self.request.uri, self.request.body_arguments)
+
+            # very before get
+            try:
+                ok, resp = self._very_before_get(self, *args, **kwargs)
+            except Exception as e:
+                log.error(traceback.format_exc()+'\b')
+                if not ok:      # overwrite the real response only not ok
+                    log.error(traceback.format_exc()+'\b')
+                    response = resp
+                    raise Break('_very_before_get, coz:', e)
+
+            iface_complete, iface = self._get_interface()
+            parameters, generic_parameters = self._get_iface_params(iface_complete, self._inject_generic_arguments()) or {}
+
 
             # CRITICAL: before get
             # _before_get_xxxxx has high priority than the shared function:_before_get.
@@ -171,6 +191,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
                 ok, resp = self._before_get(**generic_parameters)
             finally:
                 if not ok:      # overwrite the real response only not ok
+                    log.error(traceback.format_exc()+'\b')
                     response = resp
                     raise Break('_before_get')
 
@@ -194,22 +215,19 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             # TODO only debug mode show the why to api caller
             response = Response(code=e.response_code, why=str(e.why) if debug else '')
         except Exception as e:
-            log.error(traceback.format_exc()+'\b')
             log.error("Normal Process Exception: %s" % (e))
             response = Response(code=Constants.RC_UNKNOWN, why=('Normal Process Exception:'+str(e)) if debug else '')
 
         try:
             # FIXME
             self.add_header('Access-Control-Allow-Origin', '*')
-            self.write( response.convert() )
+            resp = self._very_after_get(response.convert())
+            self.write( resp )
             return
         except Exception as e:
-            # if write fails, the requester never get data, so the
-            # only soundable and valuable reason for client is that
-            # F:json.dumps fails.
-            # log.error("WRITE Exception caught: %s" % (e))
             response = Response(code=Constants.RC_JSON_DUMPS_FAILED, why=str(e))
-            self.write( response.convert() )
+            resp = self._very_after_get(response.convert())
+            self.write( resp )
 
     def post(self, *args, **kwargs):
         self.get(*args, **kwargs)

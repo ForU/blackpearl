@@ -181,19 +181,19 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             iface_complete, iface = self._get_interface()
             parameters, generic_parameters = self._get_iface_params(iface_complete, self._inject_generic_arguments()) or {}
 
-
             # CRITICAL: before get
             # _before_get_xxxxx has high priority than the shared function:_before_get.
             # if has no such function:_before_get_xxxxx, use the default shared one
-            try:
-                ok, resp = getattr(self, '_before_get_'+iface)(**parameters)
-            except AttributeError as e:
-                ok, resp = self._before_get(**generic_parameters)
-            finally:
-                if not ok:      # overwrite the real response only not ok
-                    log.error(traceback.format_exc()+'\b')
-                    response = resp
-                    raise Break('_before_get')
+            # f = getattr(self, '_before_get_'+iface, None)
+            # if f is not None:
+            #     ok, resp = f(**parameters)
+            # else:
+
+            ok, resp = self._before_get(**generic_parameters)
+            if not ok:      # overwrite the real response only not ok
+                log.error(traceback.format_exc()+'\b')
+                response = resp
+                raise Break('_before_get')
 
             # getattr(self, '_after_get_'+iface)(**parameters) # TODO: fine-gained controller
             # real get
@@ -211,10 +211,12 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             # CRITICAL: here we do not modify the response.
             log.warn("Break for "+str(e))
         except ResponseException as e:
+            log.error(traceback.format_exc()+'\b')
             log.error("Normal Process ResponseException: %s, %s" % (e, e.why))
             # TODO only debug mode show the why to api caller
             response = Response(code=e.response_code, why=str(e.why) if debug else '')
         except Exception as e:
+            log.error(traceback.format_exc()+'\b')
             log.error("Normal Process Exception: %s" % (e))
             response = Response(code=Constants.RC_UNKNOWN, why=('Normal Process Exception:'+str(e)) if debug else '')
 

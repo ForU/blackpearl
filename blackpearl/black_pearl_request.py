@@ -107,7 +107,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             if v.required and val == None:
                 why = "[FATAL] '%s' is required for iface:'%s'" % (k, iface_complete)
                 raise ResponseException(Constants.RC_IFACE_INVALID_PARAMETER, why=why)
-            param_v = urllib2.unquote(val) if val != None else v.default
+            param_v = urllib2.unquote(str(val)) if val != None else v.default
 
             # auto convert.
             if v.type:
@@ -231,7 +231,14 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             resp = self._very_after_get(response.convert())
             self.write( resp )
 
-    def post(self, *args, **kwargs):
-        self.get(*args, **kwargs)
+    # https://stackoverflow.com/questions/44900282/warningtornado-access405-error-stopping-post-from-both-localhost-and-file
+    post = options = get
+
+#    def post(self, *args, **kwargs):
+#        self.get(*args, **kwargs)
+
+#    def options(self, *args, **kwargs):
+#        self.get(*args, **kwargs)
+
 
 

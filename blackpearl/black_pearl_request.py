@@ -72,6 +72,9 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
         if not iface_args:
             raise ResponseException(Constants.RC_NEVER_HAPPEN, why="unregistered '%s'" % iface_complete)
         iface_params, iface_restriction = iface_args[0], iface_args[1]
+
+        self._inject_refine_iface_args(iface_complete, iface_params, iface_restriction)
+
         # CRITICAL: has parameter but no restriction
         if iface_params and not iface_restriction:
             raise ResponseException( Constants.RC_IFACE_UNPROPERLY_DEFINED,
@@ -147,10 +150,13 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
         """
         return: a dict as: { genericArgName: genericArgRestrict }
         """
-        pass
+        return True, None
 
     def _very_after_get(self, response):
         return response
+
+    def _inject_refine_iface_args(self, iface_complete, iface_params, iface_restriction):
+        pass
 
     def _inject_generic_arguments(self):
         """
@@ -176,7 +182,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
                 if not ok:      # overwrite the real response only not ok
                     log.error(traceback.format_exc()+'\b')
                     response = resp
-                    raise Break('_very_before_get, coz:', e)
+                    raise Break('_very_before_get, coz:' + str(response.code))
 
             iface_complete, iface = self._get_interface()
             parameters, generic_parameters = self._get_iface_params(iface_complete, self._inject_generic_arguments()) or {}
@@ -191,9 +197,8 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
 
             ok, resp = self._before_get(**generic_parameters)
             if not ok:      # overwrite the real response only not ok
-                log.error(traceback.format_exc()+'\b')
                 response = resp
-                raise Break('_before_get')
+                raise Break('_before_get, coz:' + str(response.code))
 
             # getattr(self, '_after_get_'+iface)(**parameters) # TODO: fine-gained controller
             # real get
@@ -205,7 +210,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             finally:
                 if not ok:      # overwrite the real response only not ok
                     response = resp
-                    raise Break('_after_get')
+                    raise Break('_after_get, coz:' + str(response.code))
 
         except Break as e:
             # CRITICAL: here we do not modify the response.
@@ -223,6 +228,8 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
         try:
             # FIXME
             self.add_header('Access-Control-Allow-Origin', '*')
+            self.add_header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+
             resp = self._very_after_get(response.convert())
             self.write( resp )
             return

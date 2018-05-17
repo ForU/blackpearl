@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 # ht <515563130@qq.com, weixin:jacoolee>
 
+from datetime import datetime
+
 class BareBone(object):
     def __init__(self, *args, **kwargs):
         pass
@@ -63,24 +65,24 @@ class log(object):
 
     @classmethod
     def error(cls, *args, **kwargs):
-        print cls.RED + cls.BOLD + "BLACKPEARL ERROR: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+        print '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.RED + cls.BOLD + "BLACKPEARL ERROR: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
 
     @classmethod
     def warn(cls, *args, **kwargs):
-        print cls.WARNING + cls.BOLD + "BLACKPEARL WARN: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+        print '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.WARNING + cls.BOLD + "BLACKPEARL WARN: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
 
     @classmethod
     def debug(cls, *args, **kwargs):
-        print cls.OKBLUE + "BLACKPEARL DEBUG: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+        print '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.OKBLUE + "BLACKPEARL DEBUG: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
 
     @classmethod
     def hidebug(cls, *args, **kwargs):
-        print cls.BOLD+ cls.WHITE + cls.BCYAN + "BLACKPEARL DEBUG: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+        print '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.BOLD+ cls.WHITE + cls.BCYAN + "BLACKPEARL DEBUG: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
 
     @classmethod
     def dia(cls, *args, **kwargs):
-        print cls.PURPLE + "BLACKPEARL DIA: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+        print '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.PURPLE + "BLACKPEARL DIA: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
 
     @classmethod
     def info(cls, *args, **kwargs):
-        print "BLACKPEARL INFO: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+        print '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + "BLACKPEARL INFO: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC

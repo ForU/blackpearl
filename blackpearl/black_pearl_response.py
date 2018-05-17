@@ -19,6 +19,11 @@ class Response(object):
         self.extra = extra
         self.use_raw_data = use_raw_data
 
+        if self.why:
+            log.error('Response: code =', self.code, ', why =', self.why)
+        else:
+            log.dia('Response: code =', self.code, ', no why')
+
     def convert(self):
         if self.use_raw_data:
             return self.result
@@ -33,5 +38,5 @@ class Response(object):
         try:
             return json.dumps( d )
         except Exception as e:
-            log.error( "failed to dump response as json, raise exception")
+            log.error( "Response: failed to dump response as json, raise exception")
             raise e

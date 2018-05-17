@@ -15,7 +15,7 @@ print "removing non-sense files: %s [%s]" % ( useless_files, 'OK' if 0 == os.sys
 
 setup (
     name = 'blackpearl',
-    version = 0.91,
+    version = 0.92,
     keywords = ('web front end server'),
     description = '',
     author = 'jacoolee (515563130@qq.com)',

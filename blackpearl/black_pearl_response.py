@@ -19,12 +19,12 @@ class Response(object):
         self.extra = extra
         self.use_raw_data = use_raw_data
 
+    def convert(self):
         if self.why:
             log.error('Response: code =', self.code, ', why =', self.why)
         else:
             log.dia('Response: code =', self.code, ', no why')
 
-    def convert(self):
         if self.use_raw_data:
             return self.result
 

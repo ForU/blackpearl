@@ -34,7 +34,8 @@ def dia(enable=True):
                 req_handler = args[0]
                 # TODO Fri Apr  3 02:48:39 2015
                 # more ...
-                log.dia("- [%s] %s timecost:%6fms, remote_ip:'%s', api:'%s' -" % (time.asctime(), req_handler.request.method, (e-s)*1000, req_handler.request.remote_ip, req_handler.request.uri))
+                log.dia("- [%s] api:%s, timecost:%6fms, method:%s, remote_ip:'%s' -"
+                        % (time.asctime(), req_handler.request.uri, (e-s)*1000, req_handler.request.method, req_handler.request.remote_ip))
                 #log.info('- response: ' + req_handler.request.uri + " => " + str(f_ret_val) if f_ret_val else '')
                 return f_ret_val
             return f(*args, **kwargs)

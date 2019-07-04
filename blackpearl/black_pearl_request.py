@@ -180,10 +180,11 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
                 ok, resp = self._very_before_get(self, *args, **kwargs)
             except Exception as e:
                 log.error(traceback.format_exc()+'\b')
-                if not ok:      # overwrite the real response only not ok
-                    log.error(traceback.format_exc()+'\b')
-                    response = resp
-                    raise Break('_very_before_get, coz:' + str(response.code))
+
+            if not ok:      # overwrite the real response only not ok
+                log.error(traceback.format_exc()+'\b')
+                response = resp
+                raise Break('_very_before_get, coz:' + str(response.code))
 
             iface_complete, iface = self._get_interface()
             parameters, generic_parameters = self._get_iface_params(iface_complete, self._inject_generic_arguments()) or {}

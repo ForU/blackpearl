@@ -110,9 +110,6 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
 
             if v.required and val == None:
 
-                if iface_complete == '/api/user/login':
-                    log.warn(iface_complete, "self.request.body_arguments:", self.request.body_arguments, 'req_args:', req_args, 'arguments_restriction:', arguments_restriction)
-
                 why = "[FATAL] '%s' is required for iface:'%s'" % (k, iface_complete)
                 raise ResponseException(Constants.RC_IFACE_INVALID_PARAMETER, why=why)
             param_v = urllib2.unquote(str(val)) if val != None else v.default

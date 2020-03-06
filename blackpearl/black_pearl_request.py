@@ -35,8 +35,8 @@ def dia(enable=True):
                 # TODO Fri Apr  3 02:48:39 2015
                 # more ...
                 log.dia("- [%s] api:%s, timecost:%6fms, method:%s, remote_ip:'%s' -"
-                        % (time.asctime(), req_handler.request.uri, (e-s)*1000, req_handler.request.method, req_handler.request.remote_ip))
-                #log.info('- response: ' + req_handler.request.uri + " => " + str(f_ret_val) if f_ret_val else '')
+                        % (time.asctime(), req_handler.request.uri, (e-s)*1000, req_handler.request.method, req_handler.request.remote_ip), _request_id=req_handler._request_id)
+                #log.info('- response: ' + req_handler.request.uri + " => " + str(f_ret_val) if f_ret_val else '', _request_id=req_handler._request_id)
                 return f_ret_val
             return f(*args, **kwargs)
         return _f_wrapper
@@ -49,14 +49,14 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
     def _show_request(self, whole=False):
         keys = self.request.__dict__.keys()
         keys.sort()
-        log.info('_'*100)
+        log.info('_'*100, _request_id=self._request_id)
         for k in keys:
             if whole:
                 v = str(self.request.__dict__[k])
             else:
                 v = str(self.request.__dict__[k])[:80]
-            log.info("| %15s | %s" % (k, v))
-        log.info('_'*100)
+            log.info("| %15s | %s" % (k, v), _request_id=self._request_id)
+        log.info('_'*100, _request_id=self._request_id)
 
     def _get_interface(self):
         # CRITICAL: simple
@@ -148,6 +148,12 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
         """
         return True, Response(code=Constants.RC_SUCCESS)
 
+    def _generate_request_id(self):
+        """
+        return: a string unique to identity current request
+        """
+        return 'REQUEST_ID'
+
     def _very_before_get(self, *args, **kwargs):
         """
         return: a dict as: { genericArgName: genericArgRestrict }
@@ -174,16 +180,17 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
         ok = True
 
         try:
-            log.hidebug("[PROCESSING]:", self.request.uri)
+            self._request_id = self._generate_request_id()
+            log.hidebug('PROCESSING:', self.request.uri, _request_id=self._request_id)
 
             # very before get
             try:
                 ok, resp = self._very_before_get(self, *args, **kwargs)
             except Exception as e:
-                log.error(traceback.format_exc()+'\b')
+                log.error(traceback.format_exc()+'\b', _request_id=self._request_id)
 
             if not ok:      # overwrite the real response only not ok
-                log.error(traceback.format_exc()+'\b')
+                log.error(traceback.format_exc()+'\b', _request_id=self._request_id)
                 response = resp
                 raise Break('_very_before_get, coz:' + str(response.code))
 
@@ -217,15 +224,15 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
 
         except Break as e:
             # CRITICAL: here we do not modify the response.
-            log.warn("Break for "+str(e))
+            log.warn("Break for "+str(e), _request_id=self._request_id)
         except ResponseException as e:
-            log.error(traceback.format_exc()+'\b')
-            log.error("Normal Process ResponseException: %s, %s" % (e, e.why))
+            log.error(traceback.format_exc()+'\b', _request_id=self._request_id)
+            log.error("Normal Process ResponseException: %s, %s" % (e, e.why), _request_id=self._request_id)
             # TODO only debug mode show the why to api caller
             response = Response(code=e.response_code, why=str(e.why) if debug else '')
         except Exception as e:
-            log.error(traceback.format_exc()+'\b')
-            log.error("Normal Process Exception: %s" % (e))
+            log.error(traceback.format_exc()+'\b', _request_id=self._request_id)
+            log.error("Normal Process Exception: %s" % (e), _request_id=self._request_id)
             response = Response(code=Constants.RC_UNKNOWN, why=('Normal Process Exception:'+str(e)) if debug else '')
 
         try:
@@ -233,11 +240,23 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             self.add_header('Access-Control-Allow-Origin', '*')
             self.add_header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
 
+            if response.why:
+                log.error('Response: code =', response.code, ', why:', response.why or 'no why', _request_id=self._request_id)
+            else:
+                log.dia('Response: code =', response.code, ', no why', _request_id=self._request_id)
+
             resp = self._very_after_get(response.convert())
             self.write( resp )
             return
         except Exception as e:
+            log.error("Response: failed convert dump response as json, raise exception", e, _request_id=self._request_id)
             response = Response(code=Constants.RC_JSON_DUMPS_FAILED, why=str(e))
+
+            if response.why:
+                log.error('Response: code =', response.code, ', why:', response.why or 'no why', _request_id=self._request_id)
+            else:
+                log.dia('Response: code =', response.code, ', no why', _request_id=self._request_id)
+
             resp = self._very_after_get(response.convert())
             self.write( resp )
 

@@ -33,6 +33,7 @@ class DeepMagic(object):
                     setattr(obj, k, BareBone())
                     bbone = getattr(obj, k)
                     __inner_do_magic( bbone, v )
+
         # main
         __inner_do_magic(self, kwargs)
 
@@ -63,26 +64,42 @@ class log(object):
 
     ENDC      = '\033[0m'
 
+
+    @classmethod
+    def _strip_request_id(cls, kwargs):
+        _request_id = kwargs.get('_request_id', None)
+        if _request_id is not None:
+            del kwargs['_request_id']
+        else:
+            _request_id = ''
+        return _request_id
+
     @classmethod
     def error(cls, *args, **kwargs):
-        print '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.RED + cls.BOLD + "BLACKPEARL ERROR: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+        _rqid = cls._strip_request_id(kwargs)
+        print _rqid, '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.RED + cls.BOLD + "BLACKPEARL ERROR: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
 
     @classmethod
     def warn(cls, *args, **kwargs):
-        print '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.WARNING + cls.BOLD + "BLACKPEARL WARN: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+        _rqid = cls._strip_request_id(kwargs)
+        print _rqid, '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.WARNING + cls.BOLD + "BLACKPEARL WARN: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
 
     @classmethod
     def debug(cls, *args, **kwargs):
-        print '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.OKBLUE + "BLACKPEARL DEBUG: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+        _rqid = cls._strip_request_id(kwargs)
+        print _rqid, '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.OKBLUE + "BLACKPEARL DEBUG: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
 
     @classmethod
     def hidebug(cls, *args, **kwargs):
-        print '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.BOLD+ cls.WHITE + cls.BCYAN + "BLACKPEARL DEBUG: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+        _rqid = cls._strip_request_id(kwargs)
+        print _rqid, '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.BOLD+ cls.WHITE + cls.BCYAN + "BLACKPEARL DEBUG: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
 
     @classmethod
     def dia(cls, *args, **kwargs):
-        print '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.PURPLE + "BLACKPEARL DIA: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+        _rqid = cls._strip_request_id(kwargs)
+        print _rqid, '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + cls.PURPLE + "BLACKPEARL DIA: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
 
     @classmethod
     def info(cls, *args, **kwargs):
-        print '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + "BLACKPEARL INFO: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC
+        _rqid = cls._strip_request_id(kwargs)
+        print _rqid, '[' + datetime.now().strftime('%y-%m-%d %H:%M:%S.%f') + '] ' + "BLACKPEARL INFO: " + " ".join([str(i) for i in args]) + " ".join([k+'='+kwargs[k] for k in kwargs.keys()]) + cls.ENDC

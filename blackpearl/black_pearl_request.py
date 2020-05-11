@@ -205,7 +205,8 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             #     ok, resp = f(**parameters)
             # else:
 
-            ok, resp = self._before_get(**generic_parameters)
+            parameters.update(generic_parameters)
+            ok, resp = self._before_get(**parameters)
             if not ok:      # overwrite the real response only not ok
                 response = resp
                 raise Break('_before_get, coz:' + str(response.code))
@@ -214,9 +215,9 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             # real get
             response = getattr(self, iface)(**parameters)
             try:
-                ok, resp = getattr(self, '_after_get_'+iface)(**generic_parameters)
+                ok, resp = getattr(self, '_after_get_'+iface)(**parameters)
             except AttributeError as e:
-                ok, resp = self._after_get(**generic_parameters)
+                ok, resp = self._after_get(**parameters)
             finally:
                 if not ok:      # overwrite the real response only not ok
                     response = resp

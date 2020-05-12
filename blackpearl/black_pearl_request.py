@@ -136,13 +136,13 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
 
         return parameters
 
-    def _before_get(self, **params):
+    def _before_get(self, generic_parameters, parameters):
         """@return Ok, Response
         default: True, Response(code=Constants.RC_SUCCESS)
         """
         return True, Response(code=Constants.RC_SUCCESS)
 
-    def _after_get(self, **params):
+    def _after_get(self, generic_parameters, parameters):
         """@return Ok, Response
         default: True, Response(code=Constants.RC_SUCCESS)
         """
@@ -205,8 +205,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             #     ok, resp = f(**parameters)
             # else:
 
-            parameters.update(generic_parameters)
-            ok, resp = self._before_get(**parameters)
+            ok, resp = self._before_get(generic_parameters, parameters)
             if not ok:      # overwrite the real response only not ok
                 response = resp
                 raise Break('_before_get, coz:' + str(response.code))
@@ -215,9 +214,9 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
             # real get
             response = getattr(self, iface)(**parameters)
             try:
-                ok, resp = getattr(self, '_after_get_'+iface)(**parameters)
+                ok, resp = getattr(self, '_after_get_'+iface)(generic_parameters, parameters)
             except AttributeError as e:
-                ok, resp = self._after_get(**parameters)
+                ok, resp = self._after_get(generic_parameters, parameters)
             finally:
                 if not ok:      # overwrite the real response only not ok
                     response = resp

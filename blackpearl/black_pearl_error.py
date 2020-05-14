@@ -7,11 +7,8 @@
 black pearl error-related stuff
 """
 
-from black_pearl_utils import log
-
 class ResponseException(Exception):
     def __init__(self, response_code, why=None, *args, **kwargs):
         self.response_code = response_code
         self.why = why
         super(ResponseException, self).__init__(*args, **kwargs)
-        log.error('ResponseException: response_code:%s, %s, %s' % (response_code, args, kwargs))

@@ -25,7 +25,7 @@ class BlackPearlServer(object):
         self.application_settings = application_settings
         self.service_name = service_name
 
-        self.__bp_trace = BlackPearlTrace(
+        self._bp_trace = BlackPearlTrace(
             trace_id=BlackPearlTrace._generateTraceId(),
             span_service_name=self.service_name,
             span_service_host='localhost:'+str(self.port),
@@ -37,7 +37,7 @@ class BlackPearlServer(object):
         pass
 
     def _post_init(self):
-        BlackPearlUOM.__bp_trace = self.__bp_trace
+        BlackPearlUOM._bp_trace = self._bp_trace
 
         logger.info('post initialization ...')
         for i in self.modules:

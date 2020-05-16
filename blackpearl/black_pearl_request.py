@@ -32,8 +32,8 @@ def dia(enable=True):
 
                 # get uri by self.xxx
                 req_handler = args[0]
-                req_handler.__bp_trace.timestamp = s
-                req_handler.__bp_trace.duration = e-s
+                req_handler._bp_trace.timestamp = s
+                req_handler._bp_trace.duration = e-s
 
                 req_handler._on_request_diagnose(*args, **kwargs)
 
@@ -182,8 +182,8 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
 
         try:
             # based on nginx configure
-            self.__bp_ip = self.request.headers.get('X-Forwarded-For', None)
-            self.__bp_trace = BlackPearlWebHandlerTrace(handler=self)
+            self._bp_ip = self.request.headers.get('X-Forwarded-For', None)
+            self._bp_trace = BlackPearlWebHandlerTrace(handler=self)
 
             self._on_request_start(*args, **kwargs)
 

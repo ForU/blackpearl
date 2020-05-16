@@ -18,7 +18,7 @@ from black_pearl_response import Response
 from black_pearl_error import ResponseException
 from black_pearl_utils import Magic
 from black_pearl_exception import Break
-
+from black_pearl_trace import BlackPearlWebHandlerTrace
 
 def dia(enable=True):
     def dec(f):
@@ -26,14 +26,16 @@ def dia(enable=True):
         def _f_wrapper(*args, **kwargs):
             if enable:
                 # time
-                s = time.time()
+                s = time.time() * 1000
                 f_ret_val = f(*args, **kwargs)
-                e = time.time()
+                e = time.time() * 1000
 
                 # get uri by self.xxx
                 req_handler = args[0]
+                req_handler.__bp_trace.timestamp = s
+                req_handler.__bp_trace.duration = e-s
 
-                req_handler._on_request_diagnose(timecost=(e-s), req_handler=req_handler)
+                req_handler._on_request_diagnose(*args, **kwargs)
 
                 return f_ret_val
             return f(*args, **kwargs)
@@ -134,12 +136,6 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
         """
         return True, Response(code=Constants.RC_SUCCESS)
 
-    def _generate_request_id(self):
-        """
-        return: a string unique to identity current request
-        """
-        return 'REQUEST_ID'
-
     def _very_before_get(self, *args, **kwargs):
         """
         return: a dict as: { genericArgName: genericArgRestrict }
@@ -186,8 +182,8 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
 
         try:
             # based on nginx configure
-            self.ip = self.request.headers.get('X-Forwarded-For', None)
-            self._request_id = self._generate_request_id()
+            self.__bp_ip = self.request.headers.get('X-Forwarded-For', None)
+            self.__bp_trace = BlackPearlWebHandlerTrace(handler=self)
 
             self._on_request_start(*args, **kwargs)
 

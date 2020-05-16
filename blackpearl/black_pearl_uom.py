@@ -4,10 +4,16 @@
 import inspect
 import types
 
-from black_pearl_utils import Magic, log
-
-
 import tornado
+
+from logger.logger import Logger
+
+from black_pearl_utils import Magic
+
+
+logger = Logger('BLACK_PEARL_UOM')
+
+
 class DocRequestHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         self.write(BlackPearlUOM.info())
@@ -25,7 +31,7 @@ class BlackPearlUOM(object):
             try:
                 module = __import__(module)
             except Exception as e:
-                log.error("[ERROR] failed to import '%s', caz:'%s'" % (module, e))
+                logger.error("[ERROR] failed to import '%s', caz:'%s'" % (module, e))
                 return
         cls.module_objs.append(module)
 
@@ -55,7 +61,7 @@ class BlackPearlUOM(object):
         """
         fargspec = inspect.getargspec(function_obj)
         f_args, f_defaults = fargspec.args, fargspec.defaults
-        log.debug("_get_args_from_function:", function_obj.__name__, "f_args:", f_args, "f_defaults:", f_defaults)
+        logger.debug("_get_args_from_function:", function_obj.__name__, "f_args:", f_args, "f_defaults:", f_defaults)
         default_args = {}
         if f_defaults:
             default_args = { i[0]:i[1] for i in zip(f_args[::-1], f_defaults[::-1]) }
@@ -84,7 +90,7 @@ class BlackPearlUOM(object):
                 for f in cls._get_functions_from_class(c):
                     url_pattern = cls._gen_url_pattern(mod.__name__, c.__name__, f.__name__)
                     cls.interface_infos[url_pattern] = cls._get_args_from_function(f)
-                    log.info("registering handler:", (url_pattern, c))
+                    logger.info("registering handler:", (url_pattern, c))
                     handlers.append( (url_pattern, c) )
         # register doc
         handlers.append(('/docs', DocRequestHandler))

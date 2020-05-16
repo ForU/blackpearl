@@ -10,6 +10,7 @@ blackpearl/black_pearl_exception.py
 blackpearl/black_pearl_request.py
 blackpearl/black_pearl_response.py
 blackpearl/black_pearl_server.py
+blackpearl/black_pearl_trace.py
 blackpearl/black_pearl_uom.py
 blackpearl/black_pearl_url.py
 blackpearl/black_pearl_utils.py

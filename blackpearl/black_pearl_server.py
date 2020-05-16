@@ -6,19 +6,30 @@
 import tornado.ioloop
 import tornado.web
 
+from logger.logger import Logger
+
 from black_pearl_uom import BlackPearlUOM
 from black_pearl_request import BlackPearlRequestHandler
 
-from black_pearl_utils import log
+from black_pearl_trace import BlackPearlTrace
+
+logger = Logger('BLACK_PEARL_SERVER')
 
 class BlackPearlServer(object):
-    def __init__(self, debug=True, port=8888, configure_manager=None, modules=[], handlers=[], **application_settings):
+    def __init__(self, service_name='BlackPearlServer', debug=True, port=8888, configure_manager=None, modules=[], handlers=[], **application_settings):
         self.debug = debug
         self.port = port
         self.cm = configure_manager
         self.modules = modules
         self.handlers = handlers
         self.application_settings = application_settings
+        self.service_name = service_name
+
+        self.__bp_trace = BlackPearlTrace(
+            trace_id=BlackPearlTrace._generateTraceId(),
+            span_service_name=self.service_name,
+            span_service_host='localhost:'+str(self.port),
+        )
 
         self._post_init()
 
@@ -26,27 +37,30 @@ class BlackPearlServer(object):
         pass
 
     def _post_init(self):
-        log.info('post initialization ...')
+        BlackPearlUOM.__bp_trace = self.__bp_trace
+
+        logger.info('post initialization ...')
         for i in self.modules:
             BlackPearlUOM.importModule(i)
         module_handers = BlackPearlUOM.load((BlackPearlRequestHandler,))
         self.handlers += module_handers
         self.application_settings['debug'] = self.debug
 
-        log.info(BlackPearlUOM.info())
+        logger.info(BlackPearlUOM.info())
 
     def run(self, *args, **kwargs):
-        log.info("before running server, do ...")
+        logger.info("before running server, do ...")
         self.before_run(*args, **kwargs)
 
-        log.info("running server http://localhost:"+str(self.port))
+        logger.info("running server http://localhost:"+str(self.port))
 
         if self.debug:
-            log.info('handler count: '+str(len(self.handlers)))
-            log.info('modules count: '+str(len(self.modules)))
-            log.info('app settings:  '+str(self.application_settings))
+            logger.info('handler count: '+str(len(self.handlers)))
+            logger.info('modules count: '+str(len(self.modules)))
+            logger.info('app settings:  '+str(self.application_settings))
 
         # run.
         application = tornado.web.Application( self.handlers, **self.application_settings )
+        application.service_name = self.service_name
         application.listen(self.port)
         tornado.ioloop.IOLoop.instance().start()

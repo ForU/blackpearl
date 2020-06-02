@@ -182,7 +182,7 @@ class BlackPearlRequestHandler(tornado.web.RequestHandler):
 
         try:
             # based on nginx configure
-            self._bp_ip = self.request.headers.get('X-Forwarded-For', None)
+            self._bp_ip = self.request.headers.get('X-Forwarded-For', '')
             self._bp_trace = BlackPearlWebHandlerTrace(handler=self)
 
             self._on_request_start(*args, **kwargs)
